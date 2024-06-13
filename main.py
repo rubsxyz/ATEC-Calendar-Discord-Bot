@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
 from PIL import Image
 import discord
 import aiohttp
@@ -25,7 +26,7 @@ chrome_options.add_argument('--ignore-certificate-errors')
 chrome_options.add_argument('--allow-running-insecure-content')
 
 # Certifique-se de que o caminho está correto para o chromedriver baixado
-service = Service(executable_path="D:/chromedriver-win64/chromedriver-win64/chromedriver.exe")
+service = Service(executable_path="D:/chromedriver-win64/chromedriver.exe")
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 # URL do calendário e informações de login
@@ -47,13 +48,22 @@ def login_to_site(login_url, username, password):
     pass_field.send_keys(password)
     pass_field.send_keys(Keys.RETURN)
 
-    time.sleep(2)  # Aguarda a página carregar após login
+    time.sleep(60)  # Aumenta o tempo de espera para garantir que a página seja totalmente carregada
+
+# Função para verificar se o login foi bem-sucedido
+def is_login_successful():
+    try:
+        # Verifica se o elemento de logout está presente
+        driver.find_element(By.ID, "li_942")  # Substitua pelo ID de um elemento que só aparece após o login
+        return True
+    except NoSuchElementException:
+        return False
 
 # Função para capturar a imagem do calendário
 def capture_calendar_image(url):
     try:
         driver.get(url)
-        time.sleep(3)
+        time.sleep(5)  # Aguarda 5 segundos para garantir que a página esteja totalmente carregada
         driver.save_screenshot("calendar_screenshot.png")
         # Opcional: cortar a imagem para incluir apenas o calendário
         img = Image.open("calendar_screenshot.png")
@@ -88,6 +98,15 @@ class MyClient(discord.Client):
 
 # Realizar login no site
 login_to_site(login_url, username, password)
+
+# Verificar se o login foi bem-sucedido e tentar novamente se necessário
+if not is_login_successful():
+    logging.warning("Login falhou. Tentando novamente...")
+    login_to_site(login_url, username, password)
+    if not is_login_successful():
+        logging.error("Falha ao fazer login após duas tentativas.")
+        driver.quit()
+        sys.exit(1)
 
 # Capturar a imagem do calendário
 capture_calendar_image(calendar_url)
