@@ -3,3 +3,6 @@
 
 # Ignores bot.log
 bot.log
+
+# Ignores .env
+.env
