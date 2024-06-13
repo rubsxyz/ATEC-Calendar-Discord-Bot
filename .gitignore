@@ -1,3 +1,5 @@
+# Ignores .png
 *.png
 
+# Ignores bot.log
 bot.log
