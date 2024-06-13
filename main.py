@@ -20,6 +20,8 @@ import time
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='w',  # Changed to 'w' to clear the log file on each run
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
+logging.info('Log Info Script')
+
 # Selenium configuration to capture the image
 chrome_options = Options()
 chrome_options.binary_location = "C:/Program Files/Google/Chrome/Application/chrome.exe"  # Path to Google Chrome executable
@@ -100,6 +102,11 @@ def navigate_to_calendar():
         # Ensure the new page has loaded
         wait.until(EC.presence_of_element_located((By.ID, "ctl00_details")))  # Replace with the ID of an element present on the calendar page
         logging.info("Calendar page loaded successfully.")
+        
+        # Maximize the window before taking a screenshot
+        driver.maximize_window()
+        driver.set_window_size(1920, 1000)  # Ensure the window is large enough to capture the entire calendar
+
         return True
 
     except (TimeoutException, ElementNotInteractableException) as e:
@@ -110,6 +117,7 @@ def navigate_to_calendar():
 def capture_calendar_image():
     try:
         time.sleep(10)  # Increase wait time to ensure the page is fully loaded
+        
         driver.save_screenshot("calendar_screenshot.png")
         # Optionally crop the image to include only the calendar
         img = Image.open("calendar_screenshot.png")
@@ -123,7 +131,7 @@ def capture_calendar_image():
 
 # Discord bot configuration
 DISCORD_TOKEN = 'MTI1MDc1NzE1OTc1OTc3NzgzMg.G_r2q8.-PUpAIZ-D8cO1zt9C5NE3ENMn-ONo-nRgE_SrE'
-CHANNEL_ID = 1250759096274259988  # Replace with the channel ID
+CHANNEL_ID = 1192533885632913498  # Replace with the channel ID
 
 class MyClient(discord.Client):
     async def on_ready(self):
