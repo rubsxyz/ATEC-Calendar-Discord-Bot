@@ -1,0 +1,40 @@
+2024-06-13 12:11:53,984 - INFO - Imagem do calendário capturada com sucesso.
+2024-06-13 12:11:53,986 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-06-13 12:11:53,987 - INFO - logging in using static token
+2024-06-13 12:11:54,250 - ERROR - Erro ao executar o bot do Discord: Improper token has been passed.
+2024-06-13 12:22:06,953 - INFO - Imagem do calendário capturada com sucesso.
+2024-06-13 12:22:06,955 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-06-13 12:22:06,955 - INFO - logging in using static token
+2024-06-13 12:22:07,950 - INFO - Shard ID None has connected to Gateway (Session ID: 3bc5db2bcc51a6fd6acfebe45057e1fd).
+2024-06-13 12:22:09,962 - INFO - Logado como AtecCalendarBOT#9143
+2024-06-13 12:22:10,424 - INFO - Imagem do calendário enviada com sucesso.
+2024-06-13 12:27:48,446 - INFO - Imagem do calendário capturada com sucesso.
+2024-06-13 12:27:48,447 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-06-13 12:27:48,448 - INFO - logging in using static token
+2024-06-13 12:27:49,374 - INFO - Shard ID None has connected to Gateway (Session ID: 710458ddacfc76f7d5f5e6decb9dfd8a).
+2024-06-13 12:27:51,385 - INFO - Logado como AtecCalendarBOT#9143
+2024-06-13 12:27:51,783 - INFO - Imagem do calendário enviada com sucesso.
+2024-06-13 12:33:13,963 - INFO - Imagem do calendário capturada com sucesso.
+2024-06-13 12:33:13,965 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-06-13 12:33:13,965 - INFO - logging in using static token
+2024-06-13 12:33:14,869 - INFO - Shard ID None has connected to Gateway (Session ID: 70cb97809a12f1584f1850c1ae55f275).
+2024-06-13 12:33:16,892 - INFO - Logado como AtecCalendarBOT#9143
+2024-06-13 12:33:17,366 - INFO - Imagem do calendário enviada com sucesso.
+2024-06-13 12:46:25,079 - INFO - Imagem do calendário capturada com sucesso.
+2024-06-13 12:46:25,081 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-06-13 12:46:25,082 - INFO - logging in using static token
+2024-06-13 12:46:25,989 - INFO - Shard ID None has connected to Gateway (Session ID: d328460502ae511bd6b5345c0af627c4).
+2024-06-13 12:46:27,998 - INFO - Logado como AtecCalendarBOT#9143
+2024-06-13 12:46:28,459 - INFO - Imagem do calendário enviada com sucesso.
+2024-06-13 12:46:34,613 - ERROR - Unclosed connector
+connections: ['[(<aiohttp.client_proto.ResponseHandler object at 0x000001BFB166C4D0>, 848885.75)]']
+connector: <aiohttp.connector.TCPConnector object at 0x000001BFB1658860>
+2024-06-13 13:49:23,218 - INFO - Imagem do calendário capturada com sucesso.
+2024-06-13 13:49:23,220 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-06-13 13:49:23,221 - INFO - logging in using static token
+2024-06-13 13:49:24,120 - INFO - Shard ID None has connected to Gateway (Session ID: 1558c424d391839a8af5628417a969db).
+2024-06-13 13:49:26,133 - INFO - Logado como AtecCalendarBOT#9143
+2024-06-13 13:49:26,779 - INFO - Imagem do calendário enviada com sucesso.
+2024-06-13 13:49:32,993 - ERROR - Unclosed connector
+connections: ['[(<aiohttp.client_proto.ResponseHandler object at 0x0000020B5BAEC650>, 852664.062)]']
+connector: <aiohttp.connector.TCPConnector object at 0x0000020B5BAC9CA0>
