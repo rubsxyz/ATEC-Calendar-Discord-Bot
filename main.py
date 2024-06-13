@@ -4,7 +4,10 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, ElementNotInteractableException
 from PIL import Image
 import discord
 import aiohttp
@@ -28,42 +31,72 @@ chrome_options.add_argument('--allow-running-insecure-content')
 # Certifique-se de que o caminho está correto para o chromedriver baixado
 service = Service(executable_path="D:/chromedriver-win64/chromedriver.exe")
 driver = webdriver.Chrome(service=service, options=chrome_options)
+wait = WebDriverWait(driver, 60)
 
-# URL do calendário e informações de login
-calendar_url = "https://trainingserver.atec.pt/TrainingServer/GestaoFormacao/Horarios/UserCurrentSchedule.aspx?Hash=dC2fC6G+k7vQvwdTkmvRDar5j/lvWlLMPNLasC9jxSi3ci4tcaknwRg9xb4+a+LaXE5yUpZYP9TjqFwCMCy/viS5mo/T1wsoWyhqEUZ0eC0="
-login_url = "https://trainingserver.atec.pt/trainingserver/"  # Substitua pela URL de login se for diferente
+# URL de login e informações de login
+login_url = "https://trainingserver.atec.pt/trainingserver/"
 username = "t0118939"
 password = "243816758"
 
 # Função para realizar login
 def login_to_site(login_url, username, password):
     driver.get(login_url)
-    time.sleep(2)  # Aguarda a página carregar
+    logging.info("Página de login carregada.")
 
-    # Localiza os campos de entrada e insere o nome de usuário e senha
-    user_field = driver.find_element(By.ID, "txtUser")  # Usando o ID correto para o campo de nome de usuário
-    pass_field = driver.find_element(By.ID, "txtPwd")  # Usando o ID correto para o campo de senha
-
-    user_field.send_keys(username)
-    pass_field.send_keys(password)
-    pass_field.send_keys(Keys.RETURN)
-
-    time.sleep(60)  # Aumenta o tempo de espera para garantir que a página seja totalmente carregada
-
-# Função para verificar se o login foi bem-sucedido
-def is_login_successful():
     try:
-        # Verifica se o elemento de logout está presente
-        driver.find_element(By.ID, "li_942")  # Substitua pelo ID de um elemento que só aparece após o login
+        # Espera explícita para os campos de login
+        user_field = wait.until(EC.presence_of_element_located((By.ID, "txtUser")))
+        pass_field = wait.until(EC.presence_of_element_located((By.ID, "txtPwd")))
+
+        user_field.send_keys(username)
+        pass_field.send_keys(password)
+        pass_field.send_keys(Keys.RETURN)
+        logging.info("Credenciais de login enviadas.")
+
+        # Espera explícita para a página após o login
+        wait.until(EC.url_contains("DesktopDefault"))
+        logging.info("Login realizado com sucesso.")
         return True
-    except NoSuchElementException:
+
+    except TimeoutException:
+        logging.error("Timeout ao tentar fazer login.")
         return False
 
-# Função para capturar a imagem do calendário
-def capture_calendar_image(url):
+# Função para navegar até a página do calendário e clicar no link "Agenda Pessoal"
+def navigate_to_calendar():
     try:
-        driver.get(url)
-        time.sleep(5)  # Aguarda 5 segundos para garantir que a página esteja totalmente carregada
+        # Espera explícita para a página principal após o login
+        wait.until(EC.presence_of_element_located((By.ID, "li_942")))
+        
+        # Mover o mouse sobre o menu dropdown para revelar o link "Agenda"
+        logging.info("Tentando localizar o menu dropdown.")
+        dropdown_menu = wait.until(EC.visibility_of_element_located((By.ID, "li_942")))  # Substitua pelo ID correto do menu dropdown
+        ActionChains(driver).move_to_element(dropdown_menu).perform()
+        logging.info("Mouse movido sobre o menu dropdown.")
+
+        # Espera para garantir que o link "Agenda Pessoal" seja interativo
+        time.sleep(2)
+
+        # Clicar no link "Agenda Pessoal"
+        logging.info("Tentando localizar o link 'Agenda Pessoal'.")
+        agenda_link = wait.until(EC.element_to_be_clickable((By.ID, "link_level0_943")))  # Substitua pelo ID correto do link de agenda
+        agenda_link.click()
+        logging.info("Clicou no link 'Agenda Pessoal'.")
+
+        # Espera explícita para garantir que a página do calendário foi carregada
+        wait.until(EC.presence_of_element_located((By.ID, "ctl00_details")))  # Substitua pelo ID de um elemento presente na página do calendário
+        logging.info("Página do calendário carregada com sucesso.")
+
+    except (TimeoutException, ElementNotInteractableException) as e:
+        logging.error(f"Falha ao carregar a página do calendário: {e}")
+        return False
+
+    return True
+
+# Função para capturar a imagem do calendário
+def capture_calendar_image():
+    try:
+        time.sleep(10)  # Aumenta o tempo de espera para garantir que a página esteja totalmente carregada
         driver.save_screenshot("calendar_screenshot.png")
         # Opcional: cortar a imagem para incluir apenas o calendário
         img = Image.open("calendar_screenshot.png")
@@ -77,7 +110,7 @@ def capture_calendar_image(url):
 
 # Configurações do bot do Discord
 DISCORD_TOKEN = 'MTI1MDc1NzE1OTc1OTc3NzgzMg.G_r2q8.-PUpAIZ-D8cO1zt9C5NE3ENMn-ONo-nRgE_SrE'
-CHANNEL_ID = 1192533885632913498  # Substitua pelo ID do canal
+CHANNEL_ID = 1250759096274259988  # Substitua pelo ID do canal
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -97,19 +130,21 @@ class MyClient(discord.Client):
             logging.error(f"Erro ao enviar a imagem do calendário: {e}")
 
 # Realizar login no site
-login_to_site(login_url, username, password)
-
-# Verificar se o login foi bem-sucedido e tentar novamente se necessário
-if not is_login_successful():
+if not login_to_site(login_url, username, password):
     logging.warning("Login falhou. Tentando novamente...")
-    login_to_site(login_url, username, password)
-    if not is_login_successful():
+    if not login_to_site(login_url, username, password):
         logging.error("Falha ao fazer login após duas tentativas.")
         driver.quit()
         sys.exit(1)
 
+# Navegar até a página do calendário
+if not navigate_to_calendar():
+    logging.error("Falha ao navegar para a página do calendário.")
+    driver.quit()
+    sys.exit(1)
+
 # Capturar a imagem do calendário
-capture_calendar_image(calendar_url)
+capture_calendar_image()
 
 # Iniciar o bot do Discord
 intents = discord.Intents.default()

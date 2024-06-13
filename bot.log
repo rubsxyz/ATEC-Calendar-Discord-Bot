@@ -83,3 +83,35 @@ connector: <aiohttp.connector.TCPConnector object at 0x0000018E25969160>
 2024-06-13 14:33:49,425 - ERROR - Unclosed connector
 connections: ['[(<aiohttp.client_proto.ResponseHandler object at 0x0000022C093CC6B0>, 855320.5)]']
 connector: <aiohttp.connector.TCPConnector object at 0x0000022C09371790>
+2024-06-13 18:17:06,497 - INFO - Página de login carregada.
+2024-06-13 18:17:52,234 - INFO - Credenciais de login enviadas.
+2024-06-13 18:17:52,239 - INFO - Login realizado com sucesso.
+2024-06-13 18:17:52,248 - INFO - Tentando localizar o menu dropdown.
+2024-06-13 18:17:52,545 - INFO - Mouse movido sobre o menu dropdown.
+2024-06-13 18:17:54,546 - INFO - Tentando localizar o link 'Agenda Pessoal'.
+2024-06-13 18:17:54,599 - INFO - Clicou no link 'Agenda Pessoal'.
+2024-06-13 18:18:54,921 - ERROR - Falha ao carregar a página do calendário: Message: 
+Stacktrace:
+	GetHandleVerifier [0x00007FF6E2E33E62+31618]
+	(No symbol) [0x00007FF6E2DAB0C9]
+	(No symbol) [0x00007FF6E2C6888A]
+	(No symbol) [0x00007FF6E2CB8524]
+	(No symbol) [0x00007FF6E2CB862C]
+	(No symbol) [0x00007FF6E2CFF787]
+	(No symbol) [0x00007FF6E2CDD14F]
+	(No symbol) [0x00007FF6E2CFCA80]
+	(No symbol) [0x00007FF6E2CDCEB3]
+	(No symbol) [0x00007FF6E2CAA46B]
+	(No symbol) [0x00007FF6E2CAB001]
+	GetHandleVerifier [0x00007FF6E313A03D+3202397]
+	GetHandleVerifier [0x00007FF6E3186A5D+3516285]
+	GetHandleVerifier [0x00007FF6E317C4D0+3473904]
+	GetHandleVerifier [0x00007FF6E2EE5D66+760454]
+	(No symbol) [0x00007FF6E2DB6B6F]
+	(No symbol) [0x00007FF6E2DB1D04]
+	(No symbol) [0x00007FF6E2DB1E92]
+	(No symbol) [0x00007FF6E2DA123F]
+	BaseThreadInitThunk [0x00007FF8CC0A257D+29]
+	RtlUserThreadStart [0x00007FF8CC8EAA48+40]
+
+2024-06-13 18:18:54,921 - ERROR - Falha ao navegar para a página do calendário.
