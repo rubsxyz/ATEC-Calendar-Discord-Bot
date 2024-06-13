@@ -1,8 +1,4 @@
-# Ignores .png
 *.png
-
-# Ignores bot.log
 bot.log
-
-# Ignores .env
 .env
+.gitignore
