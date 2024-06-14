@@ -58,7 +58,7 @@ This repository sends a .png of an ATEC calendar image to any Discord server.
 
 5. **Ensure ChromeDriver is in Your PATH:**
 
-    Make sure that ChromeDriver is installed and added to your system PATH. You can download ChromeDriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
+    Make sure that ChromeDriver is installed and added to your system PATH. You can download ChromeDriver from [here](https://developer.chrome.com/docs/chromedriver/downloads).
 
 ## Usage
 
@@ -87,7 +87,12 @@ The script logs its actions and any errors encountered in a `bot.log` file in th
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
+
+## Issues
+
+If you encounter any issues, please open a new issue in the [Issues](https://github.com/rubsxyz/ATEC-Calendar-Discord-Bot/issues) section of the repository.
+
 
 ## Acknowledgements
 
@@ -97,4 +102,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - [aiohttp](https://docs.aiohttp.org/en/stable/)
 - [python-dotenv](https://pypi.org/project/python-dotenv/)
 
+## License
 
+>This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE.txt) file for details.
