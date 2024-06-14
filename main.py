@@ -1,26 +1,43 @@
 import logging
 import re
 import sys
-from selenium import webdriver # type: ignore
-from selenium.webdriver.chrome.service import Service # type: ignore
-from selenium.webdriver.chrome.options import Options # type: ignore
-from selenium.webdriver.common.by import By # type: ignore
-from selenium.webdriver.common.keys import Keys # type: ignore
-from selenium.webdriver.support.ui import WebDriverWait # type: ignore
-from selenium.webdriver.support import expected_conditions as EC # type: ignore
-from selenium.webdriver.common.action_chains import ActionChains # type: ignore
-from selenium.common.exceptions import TimeoutException, ElementNotInteractableException # type: ignore
-from PIL import Image # type: ignore
-import discord # type: ignore
-import aiohttp # type: ignore
+import os
+from selenium import webdriver  # type: ignore
+from selenium.webdriver.chrome.service import Service  # type: ignore
+from selenium.webdriver.chrome.options import Options  # type: ignore
+from selenium.webdriver.common.by import By  # type: ignore
+from selenium.webdriver.common.keys import Keys  # type: ignore
+from selenium.webdriver.support.ui import WebDriverWait  # type: ignore
+from selenium.webdriver.support import expected_conditions as EC  # type: ignore
+from selenium.webdriver.common.action_chains import ActionChains  # type: ignore
+from selenium.common.exceptions import TimeoutException, ElementNotInteractableException  # type: ignore
+from PIL import Image  # type: ignore
+import discord  # type: ignore
+import aiohttp  # type: ignore
 import asyncio
 import time
+from dotenv import load_dotenv # type: ignore
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Logging configuration
-logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='w',  # Changed to 'w' to clear the log file on each run
+logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='w',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-logging.info('Log Info Script')
+# Load environment variables with unique names
+LOGIN_URL = os.getenv('LOGIN_URL')
+USER_NAME = os.getenv('USER_NAME')  # Changed from USERNAME to USER_NAME
+USER_PASSWORD = os.getenv('USER_PASSWORD')  # Changed from PASSWORD to USER_PASSWORD
+DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+CHANNEL_ID = os.getenv('CHANNEL_ID')
+
+# Verify environment variables are loaded correctly
+logging.info(f"LOGIN_URL: {LOGIN_URL}")
+logging.info(f"USER_NAME: {USER_NAME}")
+logging.info(f"USER_PASSWORD: {USER_PASSWORD}")
+logging.info(f"DISCORD_TOKEN: {DISCORD_TOKEN}")
+logging.info(f"CHANNEL_ID: {CHANNEL_ID}")
 
 # Selenium configuration to capture the image
 chrome_options = Options()
@@ -34,14 +51,9 @@ chrome_options.add_argument('--log-level=3')  # Set log level to 3 (FATAL) to re
 chrome_options.add_argument('--silent')  # Add silent option to suppress logging
 
 # Ensure the path to the downloaded chromedriver is correct
-service = Service(executable_path="D:/chromedriver-win64/chromedriver.exe") # Path to ChromeDriver executable
+service = Service(executable_path="D:/chromedriver-win64/chromedriver.exe")  # Path to ChromeDriver executable
 driver = webdriver.Chrome(service=service, options=chrome_options)
 wait = WebDriverWait(driver, 10)
-
-# Login URL and login information
-login_url = "https://trainingserver.atec.pt/trainingserver/"
-username = "t0118939"
-password = "243816758"
 
 # Function to perform login
 def login_to_site(login_url, username, password):
@@ -50,8 +62,15 @@ def login_to_site(login_url, username, password):
 
     try:
         # Explicit wait for login fields
+        logging.info("Waiting for user field...")
         user_field = wait.until(EC.presence_of_element_located((By.ID, "txtUser")))
+        logging.info("User field located.")
+        logging.info("Waiting for password field...")
         pass_field = wait.until(EC.presence_of_element_located((By.ID, "txtPwd")))
+        logging.info("Password field located.")
+
+        logging.info(f"Username: {username}")
+        logging.info(f"Password: {password}")
 
         user_field.send_keys(username)
         pass_field.send_keys(password)
@@ -72,7 +91,7 @@ def navigate_to_calendar():
     try:
         # Explicit wait for the main page after login
         wait.until(EC.presence_of_element_located((By.ID, "li_942")))
-        
+
         # Hover over the dropdown menu to reveal the "Agenda" link
         logging.info("Trying to locate the dropdown menu.")
         dropdown_menu = wait.until(EC.visibility_of_element_located((By.ID, "li_942")))  # Replace with the correct dropdown menu ID
@@ -87,10 +106,10 @@ def navigate_to_calendar():
         agenda_link = wait.until(EC.element_to_be_clickable((By.ID, "link_level0_943")))  # Replace with the correct agenda link ID
         agenda_link.click()
         logging.info("Clicked on the 'Agenda Pessoal' link.")
-        
+
         # Wait for the new page to load
-        time.sleep(0)
-        
+        time.sleep(10)
+
         # Get the current window handle and switch to the new window if opened
         current_window = driver.current_window_handle
         window_handles = driver.window_handles
@@ -102,7 +121,7 @@ def navigate_to_calendar():
         # Ensure the new page has loaded
         wait.until(EC.presence_of_element_located((By.ID, "ctl00_details")))  # Replace with the ID of an element present on the calendar page
         logging.info("Calendar page loaded successfully.")
-        
+
         # Maximize the window before taking a screenshot
         driver.maximize_window()
         driver.set_window_size(1920, 1000)  # Ensure the window is large enough to capture the entire calendar
@@ -129,8 +148,8 @@ def capture_calendar_image():
         logging.error(f"Error capturing the calendar image: {e}")
 
 # Discord bot configuration
-DISCORD_TOKEN = 'MTI1MDc1NzE1OTc1OTc3NzgzMg.G_r2q8.-PUpAIZ-D8cO1zt9C5NE3ENMn-ONo-nRgE_SrE'
-CHANNEL_ID = 1250759096274259988  # Replace with the channel ID
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -159,9 +178,9 @@ def start_discord_bot():
         sys.exit(1)
 
 # Perform login on the site
-if not login_to_site(login_url, username, password):
+if not login_to_site(LOGIN_URL, USER_NAME, USER_PASSWORD):
     logging.warning("Login failed. Trying again...")
-    if not login_to_site(login_url, username, password):
+    if not login_to_site(LOGIN_URL, USER_NAME, USER_PASSWORD):
         logging.error("Failed to login after two attempts.")
         driver.quit()
         sys.exit(1)
