@@ -1,3 +1,15 @@
+# Ignore .png files
 *.png
-bot.log
+
+# Ignore .env files
 .env
+
+# Ignore log files
+*.log
+
+# Ignore Python bytecode
+__pycache__/
+*.pyc
+
+# Ignore virtual environment
+venv/
