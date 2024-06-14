@@ -107,8 +107,8 @@ def navigate_to_calendar():
         agenda_link.click()
         logging.info("Clicked on the 'Agenda Pessoal' link.")
 
-        # Wait for the new page to load
-        time.sleep(10)
+        # # Wait for the new page to load
+        # time.sleep(10) # Adjust as needed for loading time
 
         # Get the current window handle and switch to the new window if opened
         current_window = driver.current_window_handle
@@ -140,7 +140,7 @@ def capture_calendar_image():
         # Optionally crop the image to include only the calendar
         img = Image.open("calendar_screenshot.png")
         # Define the correct coordinates to crop the image
-        left, top, right, bottom = 0, 0, img.width, img.height
+        left, top, right, bottom = 50, 180, 1860, 900
         cropped_img = img.crop((left, top, right, bottom))
         cropped_img.save("calendar_screenshot_cropped.png")
         logging.info("Calendar image captured successfully.")

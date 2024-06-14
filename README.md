@@ -25,7 +25,7 @@ This repository sends a .png of an ATEC calendar image to any Discord server.
 1. **Clone the Repository:**
 
     ```bash
-    git clone https://github.com/yourusername/atec_send_calendar_discord.git
+    git clone https://github.com/rubsxyz/ATEC-Calendar-Discord-Bot.git
     cd atec_send_calendar_discord
     ```
 
