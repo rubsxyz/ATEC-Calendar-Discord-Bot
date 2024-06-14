@@ -1,0 +1,5 @@
+selenium
+pillow
+discord.py
+aiohttp
+python-dotenv
