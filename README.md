@@ -1,6 +1,20 @@
 # Atec Send Calendar to Discord
 
-This repository sends a .png of an ATEC calendar image to any Discord server.
+This repository hosts a bot that automates the process of logging into the ATEC training server, capturing a screenshot of your personal calendar, and posting it to a specified Discord channel. Simplify your schedule management and stay updated effortlessly with this automated solution.
+
+## Table of Contents
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Logging](#logging)
+- [Troubleshooting](#troubleshooting)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [Issues](#issues)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
 
 ## Features
 
@@ -56,6 +70,8 @@ This repository sends a .png of an ATEC calendar image to any Discord server.
 
     Replace `your_username`, `your_password`, `your_discord_token`, and `your_discord_channel_id` with your actual ATEC login credentials and Discord bot token and channel ID.
 
+    To create a Discord bot and get the token, follow [this guide](https://discordpy.readthedocs.io/en/stable/discord.html).
+
 5. **Ensure ChromeDriver is in Your PATH:**
 
     Make sure that ChromeDriver is installed and added to your system PATH. You can download ChromeDriver from [here](https://developer.chrome.com/docs/chromedriver/downloads).
@@ -68,7 +84,7 @@ To run the script, execute:
 python main.py
 ```
 
-The script will:
+## The script will:
 
 1. **Log into the ATEC training server using the provided credentials.**
 2. **Navigate to the personal calendar page.**
@@ -85,6 +101,30 @@ The script logs its actions and any errors encountered in a `bot.log` file in th
 - **Discord Bot Issues:** Ensure that your Discord bot token and channel ID are correctly entered in the `.env` file and that your bot has permission to post in the specified channel.
 - **ChromeDriver Issues:** Ensure that ChromeDriver is correctly installed and added to your system PATH.
 
+## Project Structure
+
+```
+ATEC-Calendar-Discord-Bot/
+│
+├── src/
+│ ├── init.py
+│ ├── calendar_interaction.py
+│ ├── config.py
+│ ├── discord_bot.py
+│ ├── web_interaction.py
+│
+├── img/
+│ └── (Captured images are stored here)
+│
+├── .env
+├── .gitignore
+├── LICENSE.txt
+├── README.md
+├── bot.log
+├── main.py
+└── requirements.txt
+```
+
 ## Contributing
 
 Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
@@ -92,7 +132,6 @@ Feel free to fork the repository and submit pull requests. For major changes, pl
 ## Issues
 
 If you encounter any issues, please open a new issue in the [Issues](https://github.com/rubsxyz/ATEC-Calendar-Discord-Bot/issues) section of the repository.
-
 
 ## Acknowledgements
 
