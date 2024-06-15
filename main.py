@@ -99,7 +99,7 @@ def navigate_to_calendar():
         logging.info("Mouse moved over the dropdown menu.")
 
         # Wait to ensure the "Agenda Pessoal" link is interactive
-        time.sleep(1)
+        # time.sleep(1)
 
         # Click the "Agenda Pessoal" link
         logging.info("Trying to locate the 'Agenda Pessoal' link.")
@@ -135,7 +135,7 @@ def navigate_to_calendar():
 # Function to capture the calendar image
 def capture_calendar_image():
     try:
-        time.sleep(10)  # Increase wait time to ensure the page is fully loaded
+        time.sleep(1)  # Time for the calendar page to fully load classes
         driver.save_screenshot("calendar_screenshot.png")
         # Optionally crop the image to include only the calendar
         img = Image.open("calendar_screenshot.png")
