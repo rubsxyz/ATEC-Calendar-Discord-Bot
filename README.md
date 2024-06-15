@@ -113,14 +113,14 @@ ATEC-Calendar-Discord-Bot/
 │ ├── discord_bot.py
 │ ├── web_interaction.py
 │
-├── img/
+├── img/ (created at first run)
 │ └── (Captured images are stored here)
 │
-├── .env
+├── .env (read Installation)
 ├── .gitignore
 ├── LICENSE.txt
-├── README.md
-├── bot.log
+├── README.md 
+├── bot.log (created at first run)
 ├── main.py
 └── requirements.txt
 ```
