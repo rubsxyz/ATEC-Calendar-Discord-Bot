@@ -1,39 +1,85 @@
 import logging
 import discord
-import aiohttp
-import sys
-from discord import File
 from discord.ext import commands
+from discord import app_commands
+import os
+import asyncio
+import threading
+from datetime import datetime
+from dotenv import load_dotenv
+from .web_interaction import setup_driver, login_to_site
+from .calendar_interaction import navigate_to_calendar, capture_calendar_image
 from .config import get_config
 
-# Get configuration
-config = get_config()
+# Set logging level for discord.py to suppress warnings
+logging.getLogger('discord').setLevel(logging.ERROR)
 
-DISCORD_TOKEN = config['DISCORD_TOKEN']
-CHANNEL_ID = int(config['CHANNEL_ID'])
+# Load environment variables
+load_dotenv()
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
 
-class MyClient(discord.Client):
-    async def on_ready(self):
-        logging.info(f'Logged in as {self.user}')
-        await self.send_calendar_image()
-        await self.close()
+# Set up intents
+intents = discord.Intents.default()
+intents.message_content = True  # Ensure you have the necessary intent
 
-    async def send_calendar_image(self):
-        try:
-            channel = self.get_channel(CHANNEL_ID)
-            async with aiohttp.ClientSession() as session:
-                with open("img/calendar_screenshot_cropped.png", "rb") as f:
-                    file = discord.File(f, filename="calendar_screenshot_cropped.png")
-                    await channel.send(file=file)
-            logging.info("Calendar image sent successfully.")
-        except Exception as e:
-            logging.error(f"Error sending the calendar image: {e}")
+# Initialize bot with command prefix and intents
+bot = commands.Bot(command_prefix='/', intents=intents)
+
+# Sync command tree with Discord
+@bot.event
+async def on_ready():
+    print(f'Logged in as {bot.user}')
+    try:
+        await bot.tree.sync()
+        print("Commands synchronized successfully.")
+    except Exception as e:
+        print(f"Error synchronizing commands: {e}")
+
+async def run_selenium(interaction):
+    await interaction.response.send_message("A buscar o calendário...")
+
+    # Load configuration
+    config = get_config()
+
+    # Ensure img directory exists
+    if not os.path.exists("img"):
+        os.makedirs("img")
+
+    # Set up the driver
+    driver, wait = setup_driver(config)
+
+    # Log in to the site
+    if not login_to_site(driver, wait, config):
+        await interaction.edit_original_response(content="Falha ao fazer login no servidor de treinamento ATEC.")
+        driver.quit()
+        return
+
+    # Navigate to the calendar page
+    if not navigate_to_calendar(driver, wait):
+        await interaction.edit_original_response(content="Falha ao navegar para a página do calendário.")
+        driver.quit()
+        return
+
+    # Capture the calendar image
+    capture_calendar_image(driver)
+
+    # Send the image to the Discord channel
+    with open("img/calendar_screenshot_cropped.png", "rb") as f:
+        picture = discord.File(f)
+        today = datetime.now().strftime("%d/%m/%Y")
+        await interaction.edit_original_response(content=f"Calendário do dia {today}:", attachments=[picture])
+
+    driver.quit()
+
+def run_selenium_in_thread(interaction):
+    asyncio.run_coroutine_threadsafe(run_selenium(interaction), bot.loop)
+
+# Command to trigger the calendar script
+@bot.tree.command(name="aulas", description="Capture and send the calendar")
+async def aulas(interaction: discord.Interaction):
+    thread = threading.Thread(target=run_selenium_in_thread, args=(interaction,))
+    thread.start()
 
 def start_discord_bot():
-    intents = discord.Intents.default()
-    client = MyClient(intents=intents)
-    try:
-        client.run(DISCORD_TOKEN)
-    except Exception as e:
-        logging.error(f"Error running the Discord bot: {e}")
-        sys.exit(1)
+    bot.run(DISCORD_TOKEN)

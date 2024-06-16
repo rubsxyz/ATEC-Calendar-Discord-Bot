@@ -1,5 +1,6 @@
 # Ignore .png files
 *.png
+img/
 
 # Ignore .env files
 .env
@@ -13,3 +14,6 @@ __pycache__/
 
 # Ignore virtual environment
 venv/
+
+# Ignore the Procfile
+Procfile
