@@ -1,6 +1,6 @@
 # Atec Send Calendar to Discord
 
-This repository hosts a bot that automates the process of logging into the ATEC training server, capturing a screenshot of your personal calendar, and posting it to a specified Discord channel. Simplify your schedule management and stay updated effortlessly with this automated solution.
+This repository hosts a bot that automates the process of logging into the ATEC training server, capturing a screenshot of your personal calendar, and posting it to a specified Discord channel.
 
 ## Table of Contents
 
@@ -113,14 +113,14 @@ ATEC-Calendar-Discord-Bot/
 │ ├── discord_bot.py
 │ ├── web_interaction.py
 │
-├── img/
+├── img/ (created at first run)
 │ └── (Captured images are stored here)
 │
-├── .env
+├── .env (read Installation)
 ├── .gitignore
 ├── LICENSE.txt
-├── README.md
-├── bot.log
+├── README.md 
+├── bot.log (created at first run)
 ├── main.py
 └── requirements.txt
 ```
