@@ -1,8 +1,21 @@
+<p align="center">
+    <img alt="Version" src="https://img.shields.io/github/v/tag/rubsxyz/ATEC-Calendar-Discord-Bot?label=Version%3A" />
+    </a>
+  <a href="#" target="_blank">
+    <img alt="License: Apache-2.0" src="https://img.shields.io/github/license/rubsxyz/ATEC-Calendar-Discord-Bot" />
+  </a>
+    <a><img alt="Is Mantained?" src="https://img.shields.io/badge/Mantained:-yes-green.svg" />
+  </a>
+</p>
+
+<h1 align="center">
+ATEC Discord Bot
+</h1>
 # Atec Send Calendar to Discord!
 
 This repository hosts a bot that automates the process of logging into the ATEC training server, capturing a screenshot of your personal calendar, and posting it to a specified Discord channel.
 
-## Table of Contents
+## 📋 Table of Contents
 
 - [Features](#features)
 - [Requirements](#requirements)
@@ -16,14 +29,14 @@ This repository hosts a bot that automates the process of logging into the ATEC 
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
 
-## Features
+## ✨ Features
 
 - **Automated login to the ATEC training server.**
 - **Navigation to the personal calendar page.**
 - **Capture of the calendar as a .png screenshot.**
 - **Automated posting of the screenshot to a specified Discord server.**
 
-## Requirements
+## ⚠️ Requirements
 
 - **Python 3.6+**
 - **`selenium`**
@@ -34,7 +47,7 @@ This repository hosts a bot that automates the process of logging into the ATEC 
 - **Google Chrome**
 - **ChromeDriver**
 
-## Installation
+## 🛑 Installation
 
 1. **Clone the Repository:**
 
@@ -76,7 +89,7 @@ This repository hosts a bot that automates the process of logging into the ATEC 
 
     Make sure that ChromeDriver is installed and added to your system PATH. You can download ChromeDriver from [here](https://developer.chrome.com/docs/chromedriver/downloads).
 
-## Usage
+## ⚙️ Usage
 
 To run the script, execute:
 
@@ -84,7 +97,7 @@ To run the script, execute:
 python main.py
 ```
 
-## The script will:
+##  The script will:
 
 1. **Log into the ATEC training server using the provided credentials.**
 2. **Navigate to the personal calendar page.**
@@ -95,7 +108,7 @@ python main.py
 
 The script logs its actions and any errors encountered in a `bot.log` file in the root directory. This file is overwritten each time the script runs.
 
-## Troubleshooting
+## 🔨 Troubleshooting
 
 - **Login Issues:** Ensure that your username and password are correctly entered in the `.env` file.
 - **Discord Bot Issues:** Ensure that your Discord bot token and channel ID are correctly entered in the `.env` file and that your bot has permission to post in the specified channel.
@@ -125,15 +138,15 @@ ATEC-Calendar-Discord-Bot/
 └── requirements.txt
 ```
 
-## Contributing
+## 🤝 Contributing
 
 Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
 
-## Issues
+## 🛑 Issues
 
 If you encounter any issues, please open a new issue in the [Issues](https://github.com/rubsxyz/ATEC-Calendar-Discord-Bot/issues) section of the repository.
 
-## Acknowledgements
+## 📢 Acknowledgements
 
 - [Selenium](https://www.selenium.dev/)
 - [Pillow (PIL Fork)](https://python-pillow.org/)

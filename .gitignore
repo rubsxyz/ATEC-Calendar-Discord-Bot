@@ -1,6 +1,6 @@
 # Ignore .png files
-*.png
-img/
+# *.png
+# img/
 
 # Ignore .env files
 .env
