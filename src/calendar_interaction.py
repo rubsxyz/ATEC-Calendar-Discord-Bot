@@ -28,6 +28,18 @@ def navigate_to_calendar(driver, wait):
         logging.error(f"Failed to load the calendar page: {e}")
         return False
 
+##### TODO ######
+# def navigate_to_next_calendar(driver, wait):
+#     try:
+#         navigate_to_calendar()
+#         proxima_semana = wait.until(EC.element_to_be_clickable((By.ID, "link_level0_943")))
+#         proxima_semana.click()
+#         return True
+
+#     except (TimeoutException, ElementNotInteractableException) as e:
+#         logging.error(f"Failed to load the calendar page: {e}")
+#         return False
+
 def capture_calendar_image(driver):
     try:
         time.sleep(1)  # Time for the calendar page to fully load

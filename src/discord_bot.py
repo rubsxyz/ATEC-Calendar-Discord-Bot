@@ -54,7 +54,7 @@ async def run_selenium(interaction):
         await interaction.edit_original_response(content="Falha ao fazer login no servidor de treinamento ATEC.")
         driver.quit()
         return
-
+ 
     # Navigate to the calendar page
     if not navigate_to_calendar(driver, wait):
         await interaction.edit_original_response(content="Falha ao navegar para a página do calendário.")
@@ -75,11 +75,18 @@ async def run_selenium(interaction):
 def run_selenium_in_thread(interaction):
     asyncio.run_coroutine_threadsafe(run_selenium(interaction), bot.loop)
 
-# Command to trigger the calendar script
+# Comando normal para screenshot das aulas
 @bot.tree.command(name="aulas", description="Capture and send the calendar")
 async def aulas(interaction: discord.Interaction):
     thread = threading.Thread(target=run_selenium_in_thread, args=(interaction,))
     thread.start()
+
+##### TODO ######
+# Comando para screenshot das aulas da proxima semana
+# @bot.tree.command(name="proximaSemana", description="Capture and send the calendar of the next week")
+# async def proximaSemana(interaction: discord.Interaction):
+#     thread = threading.Thread(target=run_selenium_in_thread, args=(interaction,))
+#     thread.start()
 
 def start_discord_bot():
     bot.run(DISCORD_TOKEN)

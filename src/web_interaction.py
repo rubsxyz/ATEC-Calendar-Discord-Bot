@@ -10,7 +10,7 @@ from selenium.common.exceptions import TimeoutException
 
 def setup_driver(config):
     chrome_options = Options()
-    chrome_options.binary_location = "C:/Program Files/Google/Chrome/Application/chrome.exe"
+    chrome_options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--window-size=1920x1080")
@@ -19,7 +19,7 @@ def setup_driver(config):
     chrome_options.add_argument('--log-level=3')
     chrome_options.add_argument('--silent')
 
-    service = Service(executable_path="D:/chromedriver-win64/chromedriver.exe")
+    service = Service(executable_path="D:\Programs\chromedriver-win64\chromedriver.exe")
     driver = webdriver.Chrome(service=service, options=chrome_options)
     wait = WebDriverWait(driver, 10)
     return driver, wait

@@ -3,8 +3,8 @@ import os
 from src.discord_bot import start_discord_bot
 
 # Ensure img directory exists, if not, create one
-if not os.path.exists("img"):
-    os.makedirs("img")
+if not os.path.exists("images"):
+    os.makedirs("images")
 
 # Logging configuration
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='w',
