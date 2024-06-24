@@ -10,5 +10,5 @@ if not os.path.exists("images"):
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='w',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Start the Discord bot
+# Start the bot
 start_discord_bot()
