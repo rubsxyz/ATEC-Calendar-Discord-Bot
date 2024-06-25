@@ -1,6 +1,6 @@
 # Ignore .png files
-# *.png
-# img/
+calendar_screenshot_cropped.png
+calendar_screenshot.png
 
 # Ignore .env files
 .env
