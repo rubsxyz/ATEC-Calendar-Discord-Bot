@@ -43,8 +43,8 @@ async def run_selenium(interaction):
     config = get_config()
 
     # Ensure img directory exists
-    if not os.path.exists("img"):
-        os.makedirs("img")
+    if not os.path.exists("images"):
+        os.makedirs("images")
 
     # Set up the driver
     driver, wait = setup_driver(config)
@@ -65,7 +65,7 @@ async def run_selenium(interaction):
     capture_calendar_image(driver)
 
     # Send the image to the Discord channel
-    with open("img/calendar_screenshot_cropped.png", "rb") as f:
+    with open("images/calendar_screenshot_cropped.png", "rb") as f:
         picture = discord.File(f)
         today = datetime.now().strftime("%d/%m/%Y")
         await interaction.edit_original_response(content=f"Calendário do dia {today}:", attachments=[picture])

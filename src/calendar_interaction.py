@@ -43,11 +43,11 @@ def navigate_to_calendar(driver, wait):
 def capture_calendar_image(driver):
     try:
         time.sleep(1)  # Time for the calendar page to fully load
-        driver.save_screenshot("img/calendar_screenshot.png")
-        img = Image.open("img/calendar_screenshot.png")
+        driver.save_screenshot("images/calendar_screenshot.png")
+        img = Image.open("images/calendar_screenshot.png")
         left, top, right, bottom = 50, 180, 1860, 900
         cropped_img = img.crop((left, top, right, bottom))
-        cropped_img.save("img/calendar_screenshot_cropped.png")
+        cropped_img.save("images/calendar_screenshot_cropped.png")
         logging.info("Calendar image captured successfully.")
     except Exception as e:
         logging.error(f"Error capturing the calendar image: {e}")
