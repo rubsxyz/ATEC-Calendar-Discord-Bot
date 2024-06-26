@@ -136,10 +136,10 @@ ATEC-Calendar-Discord-Bot/
 │
 ├── .env (read Installation)
 ├── .gitignore
-├── LICENSE.txt
-├── README.md 
 ├── bot.log (created at first run)
+├── LICENSE.txt
 ├── main.py
+├── README.md 
 └── requirements.txt
 ```
 
