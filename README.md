@@ -13,7 +13,7 @@ ATEC Discord Bot
 </h1>
 
 <p align="center">
- <img src="https://github.com/rubsxyz/ATEC-Calendar-Discord-Bot/blob/main/images/favicon.png?raw=true" width="400">
+ <img src="https://raw.githubusercontent.com/rubsxyz/ATEC-Calendar-Discord-Bot/main/images/favicon.ico" width="500">
 </p>
 
 # Atec Send Calendar to Discord!
@@ -22,17 +22,17 @@ This repository hosts a bot that automates the process of logging into the ATEC 
 
 ## 📋 Table of Contents
 
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Logging](#logging)
-- [Troubleshooting](#troubleshooting)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [Issues](#issues)
-- [Acknowledgements](#acknowledgements)
-- [License](#license)
+- [✨ Features](#-features)
+- [⚠️ Requirements](#️-requirements)
+- [🛠️ Installation](#️-installation)
+- [⚙️ Usage](#-usage)
+- [🧾 Logging](#-logging)
+- [🔨 Troubleshooting](#-troubleshooting)
+- [🗂️ Project Structure](#-project-structure)
+- [🤝 Contributing](#-contributing)
+- [🛑 Issues](#-issues)
+- [📢 Acknowledgements](#-acknowledgements)
+- [📜 License](#-license)
 
 ## ✨ Features
 
@@ -52,7 +52,7 @@ This repository hosts a bot that automates the process of logging into the ATEC 
 - **Google Chrome**
 - **ChromeDriver**
 
-## 🛑 Installation
+## 🛠️ Installation
 
 1. **Clone the Repository:**
 
@@ -109,7 +109,7 @@ python main.py
 3. **Capture a screenshot of the calendar.**
 4. **Send the screenshot to the specified Discord channel.**
 
-## Logging
+## 🧾 Logging
 
 The script logs its actions and any errors encountered in a `bot.log` file in the root directory. This file is overwritten each time the script runs.
 
@@ -119,7 +119,7 @@ The script logs its actions and any errors encountered in a `bot.log` file in th
 - **Discord Bot Issues:** Ensure that your Discord bot token and channel ID are correctly entered in the `.env` file and that your bot has permission to post in the specified channel.
 - **ChromeDriver Issues:** Ensure that ChromeDriver is correctly installed and added to your system PATH.
 
-## Project Structure
+## 🗂️ Project Structure
 
 ```
 ATEC-Calendar-Discord-Bot/
@@ -131,7 +131,7 @@ ATEC-Calendar-Discord-Bot/
 │ ├── discord_bot.py
 │ ├── web_interaction.py
 │
-├── img/ (created at first run)
+├── images/ (created at first run)
 │ └── (Captured images are stored here)
 │
 ├── .env (read Installation)
@@ -159,6 +159,6 @@ If you encounter any issues, please open a new issue in the [Issues](https://git
 - [aiohttp](https://docs.aiohttp.org/en/stable/)
 - [python-dotenv](https://pypi.org/project/python-dotenv/)
 
-## License
+## 📜 License
 
 >This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE.txt) file for details.
