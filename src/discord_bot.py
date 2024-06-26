@@ -79,7 +79,7 @@ async def run_selenium(interaction):
     with open("images/calendar_screenshot_cropped.png", "rb") as f:
         picture = discord.File(f)
         today = datetime.now().strftime("%d/%m/%Y")
-        await interaction.edit_original_response(content=f"Calendário do dia {today}:", attachments=[picture])
+        await interaction.edit_original_response(content=f"Calendário desta semana. Dia {today}:", attachments=[picture])
 
     driver.quit()
 
@@ -121,7 +121,7 @@ async def run_selenium_next_week(interaction):
     with open("images/calendar_screenshot_cropped.png", "rb") as f:
         picture = discord.File(f)
         today = datetime.now().strftime("%d/%m/%Y")
-        await interaction.edit_original_response(content=f"Calendário da próxima semana a partir do dia {today}:", attachments=[picture])
+        await interaction.edit_original_response(content=f"Calendário da próxima semana", attachments=[picture])
 
     driver.quit()
 
