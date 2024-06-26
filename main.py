@@ -11,4 +11,6 @@ logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='w',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Start the bot
-start_discord_bot()
+if __name__ == "__main__":
+    start_discord_bot()
+
