@@ -16,7 +16,7 @@ ATEC Discord Bot
  <img src="https://raw.githubusercontent.com/rubsxyz/ATEC-Calendar-Discord-Bot/main/images/favicon.ico" width="500">
 </p>
 
-# Atec Send Calendar to Discord!
+# Atec BOT Send Calendar to Discord!
 
 This repository hosts a bot that automates the process of logging into the ATEC training server, capturing a screenshot of your personal calendar, and posting it to a specified Discord channel.
 
