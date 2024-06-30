@@ -28,7 +28,6 @@ def navigate_to_calendar(driver, wait):
         logging.error(f"Failed to load the calendar page: {e}")
         return False
 
-##### TODO ######
 def navigate_to_next_calendar(driver, wait):
     try:
         # Aguardar a presença do botão de próxima semana
