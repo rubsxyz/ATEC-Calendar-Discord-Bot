@@ -3,6 +3,7 @@ FROM python:3.9-slim
 # Install necessary packages
 RUN apt-get update && apt-get install -y \
     wget \
+    curl \
     gnupg \
     unzip \
     && rm -rf /var/lib/apt/lists/*
