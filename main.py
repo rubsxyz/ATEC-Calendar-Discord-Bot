@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, after_this_request
 import logging
 import os
 from src.discord_bot import start_discord_bot
@@ -14,6 +14,11 @@ logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='w',
 
 # Initialize Flask app
 app = Flask(__name__)
+
+@app.after_request
+def add_header(response):
+    response.headers['Vary'] = 'Cookie'
+    return response
 
 @app.route('/')
 def hello_world():
