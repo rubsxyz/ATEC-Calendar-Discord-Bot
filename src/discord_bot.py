@@ -28,119 +28,102 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 # Comando normal para screenshot das aulas
 @bot.tree.command(name="aulas", description="Capture and send the calendar")
 async def aulas(interaction: discord.Interaction):
-    logging.info("Received command: aulas")
     thread = threading.Thread(target=run_selenium_in_thread, args=(interaction,))
     thread.start()
 
 # Comando para screenshot das aulas da proxima semana
 @bot.tree.command(name="proximasemana", description="Capture and send the calendar of the next week")
 async def proximasemana(interaction: discord.Interaction):
-    logging.info("Received command: proximasemana")
     thread = threading.Thread(target=run_selenium_next_week_in_thread, args=(interaction,))
     thread.start()
 
 # Sync command tree with Discord
 @bot.event
 async def on_ready():
-    logging.info(f'Logged in as {bot.user}')
+    print(f'Logged in as {bot.user}')
     try:
         await bot.tree.sync()
-        logging.info("Commands synchronized successfully.")
+        print("Commands synchronized successfully.")
     except Exception as e:
-        logging.error(f"Error synchronizing commands: {e}")
+        print(f"Error synchronizing commands: {e}")
 
 async def run_selenium(interaction):
-    try:
-        await interaction.response.send_message("A buscar o calendário...")
+    await interaction.response.send_message("A buscar o calendário...")
 
-        # Load configuration
-        config = get_config()
+    # Load configuration
+    config = get_config()
 
-        # Ensure img directory exists
-        if not os.path.exists("images"):
-            os.makedirs("images")
+    # Ensure img directory exists
+    if not os.path.exists("images"):
+        os.makedirs("images")
 
-        # Set up the driver
-        logging.info("Setting up the driver...")
-        driver, wait = setup_driver(config)
+    # Set up the driver
+    driver, wait = setup_driver(config)
 
-        # Log in to the site
-        logging.info("Logging in to the site...")
-        if not login_to_site(driver, wait, config):
-            await interaction.edit_original_response(content="Falha ao fazer login no servidor de treinamento ATEC.")
-            driver.quit()
-            return
-
-        # Navigate to the calendar page
-        logging.info("Navigating to the calendar page...")
-        if not navigate_to_calendar(driver, wait):
-            await interaction.edit_original_response(content="Falha ao navegar para a página do calendário.")
-            driver.quit()
-            return
-
-        # Capture the calendar image
-        logging.info("Capturing the calendar image...")
-        capture_calendar_image(driver)
-
-        # Send the image to the Discord channel
-        with open("images/calendar_screenshot_cropped.png", "rb") as f:
-            picture = discord.File(f)
-            today = datetime.now().strftime("%d/%m/%Y")
-            await interaction.edit_original_response(content=f"Calendário desta semana. Dia {today}:", attachments=[picture])
-
+    # Log in to the site
+    if not login_to_site(driver, wait, config):
+        await interaction.edit_original_response(content="Falha ao fazer login no servidor de treinamento ATEC.")
         driver.quit()
-    except Exception as e:
-        logging.error(f"Error in run_selenium: {e}")
+        return
+ 
+    # Navigate to the calendar page
+    if not navigate_to_calendar(driver, wait):
+        await interaction.edit_original_response(content="Falha ao navegar para a página do calendário.")
+        driver.quit()
+        return
+
+    # Capture the calendar image
+    capture_calendar_image(driver)
+
+    # Send the image to the Discord channel
+    with open("images/calendar_screenshot_cropped.png", "rb") as f:
+        picture = discord.File(f)
+        today = datetime.now().strftime("%d/%m/%Y")
+        await interaction.edit_original_response(content=f"Calendário desta semana. Dia {today}:", attachments=[picture])
+
+    driver.quit()
 
 async def run_selenium_next_week(interaction):
-    try:
-        await interaction.response.send_message("A buscar o calendário da próxima semana...")
+    await interaction.response.send_message("A buscar o calendário da próxima semana...")
 
-        # Load configuration
-        config = get_config()
+    # Load configuration
+    config = get_config()
 
-        # Ensure img directory exists
-        if not os.path.exists("images"):
-            os.makedirs("images")
+    # Ensure img directory exists
+    if not os.path.exists("images"):
+        os.makedirs("images")
 
-        # Set up the driver
-        logging.info("Setting up the driver...")
-        driver, wait = setup_driver(config)
+    # Set up the driver
+    driver, wait = setup_driver(config)
 
-        # Log in to the site
-        logging.info("Logging in to the site...")
-        if not login_to_site(driver, wait, config):
-            await interaction.edit_original_response(content="Falha ao fazer login no servidor de treinamento ATEC.")
-            driver.quit()
-            return
-
-        # Navigate to the calendar page
-        logging.info("Navigating to the calendar page...")
-        if not navigate_to_calendar(driver, wait):
-            await interaction.edit_original_response(content="Falha ao navegar para a página do calendário.")
-            driver.quit()
-            return
-
-        # Navigate to next week's calendar
-        logging.info("Navigating to next week's calendar...")
-        if not navigate_to_next_calendar(driver, wait):
-            await interaction.edit_original_response(content="Falha ao navegar para o calendário da próxima semana.")
-            driver.quit()
-            return
-
-        # Capture the calendar image
-        logging.info("Capturing the calendar image...")
-        capture_calendar_image(driver)
-
-        # Send the image to the Discord channel
-        with open("images/calendar_screenshot_cropped.png", "rb") as f:
-            picture = discord.File(f)
-            today = datetime.now().strftime("%d/%m/%Y")
-            await interaction.edit_original_response(content=f"Calendário da próxima semana", attachments=[picture])
-
+    # Log in to the site
+    if not login_to_site(driver, wait, config):
+        await interaction.edit_original_response(content="Falha ao fazer login no servidor de treinamento ATEC.")
         driver.quit()
-    except Exception as e:
-        logging.error(f"Error in run_selenium_next_week: {e}")
+        return
+ 
+    # Navigate to the calendar page
+    if not navigate_to_calendar(driver, wait):
+        await interaction.edit_original_response(content="Falha ao navegar para a página do calendário.")
+        driver.quit()
+        return
+
+    # Navigate to next week's calendar
+    if not navigate_to_next_calendar(driver, wait):
+        await interaction.edit_original_response(content="Falha ao navegar para o calendário da próxima semana.")
+        driver.quit()
+        return
+
+    # Capture the calendar image
+    capture_calendar_image(driver)
+
+    # Send the image to the Discord channel
+    with open("images/calendar_screenshot_cropped.png", "rb") as f:
+        picture = discord.File(f)
+        today = datetime.now().strftime("%d/%m/%Y")
+        await interaction.edit_original_response(content=f"Calendário da próxima semana", attachments=[picture])
+
+    driver.quit()
 
 def run_selenium_in_thread(interaction):
     asyncio.run_coroutine_threadsafe(run_selenium(interaction), bot.loop)
