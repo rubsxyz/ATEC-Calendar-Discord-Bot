@@ -58,21 +58,25 @@ async def run_selenium(interaction):
         os.makedirs("images")
 
     # Set up the driver
+    logging.info("Setting up the driver...")
     driver, wait = setup_driver(config)
 
     # Log in to the site
+    logging.info("Logging in to the site...")
     if not login_to_site(driver, wait, config):
         await interaction.edit_original_response(content="Falha ao fazer login no servidor de treinamento ATEC.")
         driver.quit()
         return
- 
+
     # Navigate to the calendar page
+    logging.info("Navigating to the calendar page...")
     if not navigate_to_calendar(driver, wait):
         await interaction.edit_original_response(content="Falha ao navegar para a página do calendário.")
         driver.quit()
         return
 
     # Capture the calendar image
+    logging.info("Capturing the calendar image...")
     capture_calendar_image(driver)
 
     # Send the image to the Discord channel
@@ -94,27 +98,32 @@ async def run_selenium_next_week(interaction):
         os.makedirs("images")
 
     # Set up the driver
+    logging.info("Setting up the driver...")
     driver, wait = setup_driver(config)
 
     # Log in to the site
+    logging.info("Logging in to the site...")
     if not login_to_site(driver, wait, config):
         await interaction.edit_original_response(content="Falha ao fazer login no servidor de treinamento ATEC.")
         driver.quit()
         return
- 
+
     # Navigate to the calendar page
+    logging.info("Navigating to the calendar page...")
     if not navigate_to_calendar(driver, wait):
         await interaction.edit_original_response(content="Falha ao navegar para a página do calendário.")
         driver.quit()
         return
 
     # Navigate to next week's calendar
+    logging.info("Navigating to next week's calendar...")
     if not navigate_to_next_calendar(driver, wait):
         await interaction.edit_original_response(content="Falha ao navegar para o calendário da próxima semana.")
         driver.quit()
         return
 
     # Capture the calendar image
+    logging.info("Capturing the calendar image...")
     capture_calendar_image(driver)
 
     # Send the image to the Discord channel
