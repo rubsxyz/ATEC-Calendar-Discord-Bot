@@ -27,7 +27,7 @@ def add_header(response):
 
 @app.route('/')
 def hello_world():
-    return 'Hello, this is your Discord Bot running!'
+    return 'Hello, Discord Bot running!'
 
 # Function to start the Flask server using waitress
 def start_flask():
