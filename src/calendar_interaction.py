@@ -28,15 +28,11 @@ def navigate_to_calendar(driver, wait):
         logging.error(f"Failed to load the calendar page: {e}")
         return False
 
-##### TODO ######
 def navigate_to_next_calendar(driver, wait):
     try:
-        # Aguardar a presença do botão de próxima semana
         next_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span.fc-button.fc-button-next.fc-state-default.fc-corner-right")))
-        # Clicar no botão de próxima semana
         next_button.click()
-        # Aguardar a página atualizar
-        time.sleep(1)  # Aguardar 2 segundos para garantir que a página da próxima semana carregue completamente
+        time.sleep(1)  # ajustar os segundos conforme necessario
         return True
     except (TimeoutException, ElementNotInteractableException) as e:
         logging.error(f"Failed to navigate to next week's calendar: {e}")
@@ -44,7 +40,7 @@ def navigate_to_next_calendar(driver, wait):
 
 def capture_calendar_image(driver):
     try:
-        time.sleep(1)  # Time for the calendar page to fully load
+        time.sleep(1)  # ajustar os segundos conforme necessario
         driver.save_screenshot("images/calendar_screenshot.png")
         img = Image.open("images/calendar_screenshot.png")
         left, top, right, bottom = 50, 180, 1860, 900
