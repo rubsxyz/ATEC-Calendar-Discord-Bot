@@ -39,13 +39,6 @@ jobs:
           mkdir -p ~/.railway
           echo '{"project": "1dac405b-26b4-431c-bbcb-a9b598bc0e89"}' > ~/.railway/project.json
 
-      - name: Link Railway Project
-        env:
-          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          . $GITHUB_ENV
-          railway link
-
       - name: Deploy to Railway
         env:
           RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
