@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Railway CLI
         run: |
-          curl -sL https://railway.app/install | bash
+          curl -sSL https://raw.githubusercontent.com/railwayapp/cli/master/install.sh | bash
           echo 'export PATH="$HOME/.railway/bin:$PATH"' >> $GITHUB_ENV
 
       - name: Deploy to Railway
