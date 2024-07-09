@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
@@ -37,10 +37,15 @@ jobs:
         run: |
           xvfb-run --server-args='-screen 0 1920x1080x24' pytest
 
+      - name: Install Railway CLI
+        run: |
+          curl -sL https://railway.app/install | bash
+          echo 'export PATH="$HOME/.railway/bin:$PATH"' >> $GITHUB_ENV
+
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          curl -sL https://railway.app/install | bash
+          source $GITHUB_ENV
           railway login --token $RAILWAY_TOKEN
           railway up
