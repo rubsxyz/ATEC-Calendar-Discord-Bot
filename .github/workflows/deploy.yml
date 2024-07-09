@@ -8,32 +8,39 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    container:
-      image: mcr.microsoft.com/playwright:v1.14.1-focal
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up environment variables
-        run: |
-          echo "LOGIN_URL=${{ secrets.LOGIN_URL }}" >> .env
-          echo "USER_NAME=${{ secrets.USER_NAME }}" >> .env
-          echo "USER_PASSWORD=${{ secrets.USER_PASSWORD }}" >> .env
-          echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> .env
-          cat .env
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Set up ChromeDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip xvfb libxi6 libgconf-2-4 chromium-browser
+          wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip -d /usr/local/bin/
 
       - name: Install Railway CLI
         run: |
-          curl -sSL https://raw.githubusercontent.com/railwayapp/cli/master/install.sh | bash
+          curl -sSL https://raw.githubusercontent.com/railwayapp/cli/master/install.sh | sh
           echo 'export PATH="$HOME/.railway/bin:$PATH"' >> $GITHUB_ENV
-          
+
+      - name: Configure Railway project
+        run: |
+          mkdir -p ~/.railway
+          echo '{"project": "1dac405b-26b4-431c-bbcb-a9b598bc0e89"}' > ~/.railway/project.json
+        env:
+          export PATH: "$HOME/.railway/bin:$PATH"
+
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}

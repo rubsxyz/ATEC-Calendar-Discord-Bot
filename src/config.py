@@ -8,5 +8,4 @@ def get_config():
         "USER_NAME": os.getenv("USER_NAME"),
         "USER_PASSWORD": os.getenv("USER_PASSWORD"),
         "DISCORD_TOKEN": os.getenv("DISCORD_TOKEN"),
-        "CHANNEL_ID": os.getenv("CHANNEL_ID"),
     }

@@ -1,0 +1,33 @@
+FROM python:3.9-slim
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip \
+    xvfb \
+    libxi6 \
+    libgconf-2-4 \
+    libxrender1 \
+    libxtst6 \
+    libxss1 \
+    chromium \
+    chromium-driver \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up ChromeDriver
+RUN wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip \
+    && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
+    && rm chromedriver_linux64.zip
+
+# Set environment variables
+ENV DISPLAY=:99
+
+# Copy project files
+WORKDIR /app
+COPY . /app
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Run the bot
+CMD ["python", "main.py"]
