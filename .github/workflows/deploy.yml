@@ -45,6 +45,13 @@ jobs:
           sudo rm chromedriver_linux64.zip 
           sudo chmod +x /usr/local/bin/chromedriver
           sudo ln -s /usr/local/bin/chromedriver /usr/bin/chromedriver || true
+          
+      - name: Verify ChromeDriver Installation
+        run: |
+          ls -la /usr/local/bin/
+          ls -la /usr/bin/
+          /usr/local/bin/chromedriver --version
+          /usr/bin/chromedriver --version
 
       - name: Install Railway CLI
         run: |
