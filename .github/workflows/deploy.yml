@@ -39,4 +39,4 @@ jobs:
           RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           . $GITHUB_ENV
-          railway up --service . --env production
+          railway up --service . --environment production
