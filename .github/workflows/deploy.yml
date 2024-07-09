@@ -45,7 +45,7 @@ jobs:
 
       - name: Install ChromeDriver
         run: |
-          wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
+          wget -N https://chromedriver.storage.googleapis.com/126.0.6478.126/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip -d /usr/local/bin/
           sudo rm chromedriver_linux64.zip 
           sudo chmod +x /usr/local/bin/chromedriver
@@ -53,10 +53,24 @@ jobs:
           
       - name: Verify ChromeDriver Installation
         run: |
-          echo "Checking /usr/bin directory:"
-          ls -la /usr/bin/
-          echo "Checking ChromeDriver version in /usr/bin:"
-          /usr/bin/chromedriver --version
+          echo "Checking ChromeDriver version in /usr/local/bin/"
+          /usr/local/bin/chromedriver --version
+          echo "Checking ChromeDriver version in /usr/bin/"
+          /usr/bin/chromedriver --version || echo "chromedriver not found in /usr/bin/"
+          echo "Google Chrome version:"
+          google-chrome --version
+
+      - name: Locate ChromeDriver and check permissions
+        run: |
+          echo "Locating chromedriver..."
+          CHROMEDRIVER_PATH=$(which chromedriver)
+          echo "ChromeDriver Path: $CHROMEDRIVER_PATH"
+          if [ -z "$CHROMEDRIVER_PATH" ]; then
+            echo "chromedriver not found in PATH"
+            exit 1
+          fi
+          echo "Checking ChromeDriver permissions..."
+          ls -la $CHROMEDRIVER_PATH
 
       - name: Display Google Chrome Version
         run: |

@@ -21,12 +21,12 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 
 @bot.tree.command(name="aulas", description="Capture and send the calendar")
 async def aulas(interaction: discord.Interaction):
-    await interaction.response.defer()  # Defer the response to indicate processing
+    await interaction.response.defer()
     await run_selenium(interaction)
 
 @bot.tree.command(name="proximasemana", description="Capture and send the calendar of the next week")
 async def proximasemana(interaction: discord.Interaction):
-    await interaction.response.defer()  # Defer the response to indicate processing
+    await interaction.response.defer()
     await run_selenium_next_week(interaction)
 
 @bot.event
