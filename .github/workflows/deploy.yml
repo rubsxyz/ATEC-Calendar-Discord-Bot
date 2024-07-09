@@ -30,6 +30,6 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          source $GITHUB_ENV
+          . $GITHUB_ENV
           railway login --token $RAILWAY_TOKEN
           railway up
