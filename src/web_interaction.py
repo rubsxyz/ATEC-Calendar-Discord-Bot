@@ -20,7 +20,7 @@ def setup_driver(config):
     chrome_options.add_argument('--log-level=3')
     chrome_options.add_argument('--silent')
 
-    service = Service(executable_path="/usr/local/bin/chromedriver_linux64/chromedriver.exe")
+    service = Service(executable_path="/usr/local/share/chromedriver-linux64/chromedriver")
     driver = webdriver.Chrome(service=service, options=chrome_options)
     wait = WebDriverWait(driver, 10)
     return driver, wait
