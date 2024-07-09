@@ -1,0 +1,46 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Set up ChromeDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip xvfb libxi6 libgconf-2-4
+          wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip -d /usr/local/bin/
+          sudo apt-get install -y chromium-browser
+        env:
+          PATH: /usr/local/bin:$PATH
+
+      - name: Run tests
+        run: |
+          xvfb-run --server-args='-screen 0 1920x1080x24' pytest
+
+      - name: Deploy to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          curl -sL https://railway.app/install | bash
+          railway login --token $RAILWAY_TOKEN
+          railway up
