@@ -34,14 +34,10 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/railwayapp/cli/master/install.sh | bash
           echo 'export PATH="$HOME/.railway/bin:$PATH"' >> $GITHUB_ENV
 
-      - name: Configure Railway project
-        run: |
-          mkdir -p ~/.railway
-          echo '{"project": "dca405b-26b4-431c-bbcb-a9b598bc0e89"}' > ~/.railway/project.json
-
       - name: Deploy to Railway
         env:
           RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: "dca405b-26b4-431c-bbcb-a9b598bc0e89"  # Add your Railway project ID here
         run: |
           . $GITHUB_ENV
           railway up --service . --environment production
