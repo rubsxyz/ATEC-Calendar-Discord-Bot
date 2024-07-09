@@ -36,7 +36,7 @@ jobs:
           sudo apt-get install -y wget unzip xvfb libxi6 libgconf-2-4
           wget -q -O google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo dpkg -i google-chrome.deb || sudo apt-get -fy install
-          sudo ln -s /usr/bin/google-chrome /usr/bin/chrome
+          sudo ln -s /usr/bin/google-chrome /usr/bin/chrome || true
 
       - name: Install ChromeDriver
         run: |
@@ -44,7 +44,7 @@ jobs:
           unzip chromedriver_linux64.zip -d /usr/local/bin/
           sudo rm chromedriver_linux64.zip 
           sudo chmod +x /usr/local/bin/chromedriver
-          sudo ln -s /usr/local/bin/chromedriver /usr/bin/chromedriver
+          sudo ln -s /usr/local/bin/chromedriver /usr/bin/chromedriver || true
 
       - name: Install Railway CLI
         run: |
