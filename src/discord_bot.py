@@ -11,23 +11,22 @@ from .config import get_config
 
 logging.getLogger('discord').setLevel(logging.ERROR)
 
-load_dotenv() # load environment variables
+load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='/', intents=intents)
 
-# comando normal para screenshot das aulas da semana
 @bot.tree.command(name="aulas", description="Capture and send the calendar")
 async def aulas(interaction: discord.Interaction):
+    await interaction.response.send_message("A buscar o calendário...")
     await run_selenium(interaction)
 
-# comando para screenshot das aulas da proxima semana
 @bot.tree.command(name="proximasemana", description="Capture and send the calendar of the next week")
 async def proximasemana(interaction: discord.Interaction):
+    await interaction.response.send_message("A buscar o calendário da próxima semana...")
     await run_selenium_next_week(interaction)
 
 @bot.event
@@ -39,7 +38,6 @@ async def on_ready():
     except Exception as e:
         logging.error(f"Error synchronizing commands: {e}")
 
-# funcao para dar login no site
 async def login_to_atec(driver, wait, config, interaction):
     if not await asyncio.to_thread(login_to_site, driver, wait, config):
         await interaction.edit_original_response(content="Falha ao fazer login no servidor ATEC.")
@@ -48,12 +46,8 @@ async def login_to_atec(driver, wait, config, interaction):
     return True
 
 async def run_selenium(interaction):
-    await interaction.response.send_message("A buscar o calendário...")
-
     config = get_config()
-
     driver, wait = await asyncio.to_thread(setup_driver, config)
-
     if not await login_to_atec(driver, wait, config, interaction):
         return
 
@@ -63,21 +57,15 @@ async def run_selenium(interaction):
         return
 
     await asyncio.to_thread(capture_calendar_image, driver)
-
     with open("images/calendar_screenshot_cropped.png", "rb") as f:
         picture = discord.File(f)
         today = datetime.now().strftime("%d/%m/%Y")
         await interaction.edit_original_response(content=f"Calendário desta semana. Dia {today}:", attachments=[picture])
-
     driver.quit()
 
 async def run_selenium_next_week(interaction):
-    await interaction.response.send_message("A buscar o calendário da próxima semana...")
-
     config = get_config()
-
     driver, wait = await asyncio.to_thread(setup_driver, config)
-
     if not await login_to_atec(driver, wait, config, interaction):
         return
 
@@ -92,11 +80,9 @@ async def run_selenium_next_week(interaction):
         return
 
     await asyncio.to_thread(capture_calendar_image, driver)
-
     with open("images/calendar_screenshot_cropped.png", "rb") as f:
         picture = discord.File(f)
-        await interaction.edit_original_response(content=f"Calendário da próxima semana", attachments=[picture])
-
+        await interaction.edit_original_response(content="Calendário da próxima semana", attachments=[picture])
     driver.quit()
 
 def start_discord_bot():

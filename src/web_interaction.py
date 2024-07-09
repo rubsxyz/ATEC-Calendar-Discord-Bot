@@ -10,7 +10,6 @@ from selenium.common.exceptions import TimeoutException
 
 def setup_driver(config):
     chrome_options = Options()
-    chrome_options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--window-size=1920x1080")
@@ -25,29 +24,18 @@ def setup_driver(config):
     return driver, wait
 
 def login_to_site(driver, wait, config):
-    login_url = config['LOGIN_URL']
-    username = config['USER_NAME']
-    password = config['USER_PASSWORD']
-    
-    driver.get(login_url)
+    driver.get(config['LOGIN_URL'])
     logging.info("Login page loaded.")
-
+    
     try:
-        logging.info("Waiting for user field...")
         user_field = wait.until(EC.presence_of_element_located((By.ID, "txtUser")))
-        logging.info("User field located.")
-        logging.info("Waiting for password field...")
         pass_field = wait.until(EC.presence_of_element_located((By.ID, "txtPwd")))
-        logging.info("Password field located.")
-
-        logging.info(f"Username: {username}")
-        logging.info(f"Password: {password}")
-
-        user_field.send_keys(username)
-        pass_field.send_keys(password)
+        
+        user_field.send_keys(config['USER_NAME'])
+        pass_field.send_keys(config['USER_PASSWORD'])
         pass_field.send_keys(Keys.RETURN)
         logging.info("Login credentials sent.")
-
+        
         wait.until(EC.url_contains("DesktopDefault"))
         logging.info("Login successful.")
         return True
