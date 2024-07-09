@@ -46,28 +46,28 @@ jobs:
           sudo chmod +x /usr/local/bin/chromedriver
           sudo ln -s /usr/local/bin/chromedriver /usr/bin/chromedriver || true
           
-          - name: Verify ChromeDriver Installation
-          run: |
-            echo "Checking /usr/local/bin directory:"
-            ls -la /usr/local/bin/
-            
-            echo "Checking /usr/bin directory:"
-            ls -la /usr/bin/
-            
-            echo "Checking ChromeDriver version in /usr/local/bin:"
-            if [ -f /usr/local/bin/chromedriver ]; then
-              /usr/local/bin/chromedriver --version
-            else
-              echo "ChromeDriver not found in /usr/local/bin"
-            fi
-            
-            echo "Checking ChromeDriver version in /usr/bin:"
-            if [ -f /usr/bin/chromedriver ]; then
-              /usr/bin/chromedriver --version
-            else
-              echo "ChromeDriver not found in /usr/bin"
-            fi
-        
+      - name: Verify ChromeDriver Installation
+        run: |
+          echo "Checking /usr/local/bin directory:"
+          ls -la /usr/local/bin/
+          
+          echo "Checking /usr/bin directory:"
+          ls -la /usr/bin/
+          
+          echo "Checking ChromeDriver version in /usr/local/bin:"
+          if [ -f /usr/local/bin/chromedriver ]; then
+            /usr/local/bin/chromedriver --version
+          else
+            echo "ChromeDriver not found in /usr/local/bin"
+          fi
+          
+          echo "Checking ChromeDriver version in /usr/bin:"
+          if [ -f /usr/bin/chromedriver ]; then
+            /usr/bin/chromedriver --version
+          else
+            echo "ChromeDriver not found in /usr/bin"
+          fi
+
       - name: Display Google Chrome Version
         run: |
           echo "Google Chrome version:"
