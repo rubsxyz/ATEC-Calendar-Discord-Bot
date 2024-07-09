@@ -16,12 +16,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Print working directory
-        run: pwd
-
-      - name: List files
-        run: ls -la
-
       - name: Set up environment variables
         run: |
           echo "LOGIN_URL=${{ secrets.LOGIN_URL }}" >> .env
@@ -43,6 +37,7 @@ jobs:
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
         run: |
           . $GITHUB_ENV
           railway up
