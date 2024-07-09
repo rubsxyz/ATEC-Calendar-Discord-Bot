@@ -38,6 +38,11 @@ jobs:
           sudo dpkg -i google-chrome.deb || sudo apt-get -fy install
           sudo ln -s /usr/bin/google-chrome /usr/bin/chrome || true
 
+      - name: Clean up old ChromeDriver
+        run: |
+          echo "Removing old ChromeDriver version"
+          sudo rm -f /usr/local/bin/chromedriver
+
       - name: Install ChromeDriver
         run: |
           wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
@@ -48,25 +53,10 @@ jobs:
           
       - name: Verify ChromeDriver Installation
         run: |
-          echo "Checking /usr/local/bin directory:"
-          ls -la /usr/local/bin/
-          
           echo "Checking /usr/bin directory:"
           ls -la /usr/bin/
-          
-          echo "Checking ChromeDriver version in /usr/local/bin:"
-          if [ -f /usr/local/bin/chromedriver ]; then
-            /usr/local/bin/chromedriver --version
-          else
-            echo "ChromeDriver not found in /usr/local/bin"
-          fi
-          
           echo "Checking ChromeDriver version in /usr/bin:"
-          if [ -f /usr/bin/chromedriver ]; then
-            /usr/bin/chromedriver --version
-          else
-            echo "ChromeDriver not found in /usr/bin"
-          fi
+          /usr/bin/chromedriver --version
 
       - name: Display Google Chrome Version
         run: |
