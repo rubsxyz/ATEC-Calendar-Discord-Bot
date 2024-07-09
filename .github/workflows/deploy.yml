@@ -43,26 +43,14 @@ jobs:
           echo "Removing old ChromeDriver version"
           sudo rm -f /usr/local/bin/chromedriver
 
-      - name: Install latest ChromeDriver
+      - name: Install ChromeDriver
         run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-          echo "Installing ChromeDriver for Chrome version $CHROME_VERSION"
-          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
-          wget -N "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
+          wget -N https://chromedriver.storage.googleapis.com/126.0.6478.126/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip -d /usr/local/bin/
           sudo rm chromedriver_linux64.zip 
           sudo chmod +x /usr/local/bin/chromedriver
           sudo ln -s /usr/local/bin/chromedriver /usr/bin/chromedriver || true
           
-      - name: Verify ChromeDriver Installation
-        run: |
-          echo "Checking ChromeDriver version in /usr/local/bin/"
-          /usr/local/bin/chromedriver --version
-          echo "Checking ChromeDriver version in /usr/bin/"
-          /usr/bin/chromedriver --version || echo "chromedriver not found in /usr/bin/"
-          echo "Google Chrome version:"
-          google-chrome --version
-
       - name: Locate ChromeDriver and check permissions
         run: |
           echo "Locating chromedriver..."
@@ -74,6 +62,13 @@ jobs:
           fi
           echo "Checking ChromeDriver permissions..."
           ls -la $CHROMEDRIVER_PATH
+
+      - name: Verify ChromeDriver Installation
+        run: |
+          echo "Checking /usr/bin directory:"
+          ls -la /usr/bin/
+          echo "Checking ChromeDriver version in /usr/bin:"
+          /usr/bin/chromedriver --version
 
       - name: Display Google Chrome Version
         run: |
