@@ -1,37 +1,24 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 
-# Install necessary packages
-RUN apt-get update && apt-get install -y \
-    wget \
-    unzip \
-    xvfb \
-    libxi6 \
-    libgconf-2-4 \
-    libxrender1 \
-    libxtst6 \
-    libxss1 \
-    chromium \
-    chromium-driver \
-    && rm -rf /var/lib/apt/lists/*
+# Install Chrome
+RUN apt-get update && apt-get install -y wget gnupg
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+RUN apt-get update && apt-get install -y google-chrome-stable
 
-# Set up ChromeDriver
-RUN wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip \
-    && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
-    && rm chromedriver_linux64.zip \
-    && chmod +x /usr/local/bin/chromedriver \
-    && ln -fs /usr/local/bin/chromedriver /usr/bin/chromedriver
-
-# Set environment variables
-ENV DISPLAY=:99
-ENV CHROME_BIN=/usr/bin/chromium
-ENV CHROMEDRIVER_BIN=/usr/local/bin/chromedriver
-
-# Copy project files
-WORKDIR /app
-COPY . /app
+# Install ChromeDriver
+RUN apt-get update && apt-get install -y unzip
+RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/126.0.6478.126/chromedriver_linux64.zip
+RUN unzip /tmp/chromedriver.zip -d /usr/bin/
+RUN chmod +x /usr/bin/chromedriver
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# Run the bot
+# Copy the application
+COPY . /app
+WORKDIR /app
+
+# Run the application
 CMD ["python", "main.py"]

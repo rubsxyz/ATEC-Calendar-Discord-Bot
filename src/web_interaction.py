@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
+import os
 
 def setup_driver(config):
     chrome_options = Options()
@@ -14,13 +15,20 @@ def setup_driver(config):
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument('--disable-software-rasterizer')
     chrome_options.add_argument("--window-size=1920x1080")
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--allow-running-insecure-content')
     chrome_options.add_argument('--log-level=3')
     chrome_options.add_argument('--silent')
 
-    service = Service(executable_path="/usr/bin/chromedriver")
+    chromedriver_path = "/usr/bin/chromedriver_linux64/chromedriver"
+
+    logging.info(f"ChromeDriver Path: {chromedriver_path}")
+    logging.info(f"Does ChromeDriver exist? {os.path.exists(chromedriver_path)}")
+    logging.info(f"ChromeDriver Permissions: {oct(os.stat(chromedriver_path).st_mode)}")
+
+    service = Service(executable_path=chromedriver_path)
     driver = webdriver.Chrome(service=service, options=chrome_options)
     wait = WebDriverWait(driver, 10)
     return driver, wait
