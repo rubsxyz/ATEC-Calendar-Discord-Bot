@@ -40,5 +40,5 @@ jobs:
           RAILWAY_PROJECT_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
         run: |
           . $GITHUB_ENV
-          echo $RAILWAY_TOKEN | railway login
-          railway up --token $RAILWAY_PROJECT_TOKEN
+          export RAILWAY_API_TOKEN=$RAILWAY_TOKEN
+          railway up
