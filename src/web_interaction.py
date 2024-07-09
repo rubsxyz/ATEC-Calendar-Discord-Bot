@@ -22,7 +22,7 @@ def setup_driver(config):
     chrome_options.add_argument('--log-level=3')
     chrome_options.add_argument('--silent')
 
-    chromedriver_path = "/usr/bin/chromedriver_linux64/chromedriver"
+    chromedriver_path = "/usr/bin/chromedriver"
 
     logging.info(f"ChromeDriver Path: {chromedriver_path}")
     logging.info(f"Does ChromeDriver exist? {os.path.exists(chromedriver_path)}")
