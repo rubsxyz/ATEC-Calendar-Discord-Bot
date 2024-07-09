@@ -25,11 +25,11 @@ jobs:
 
       - name: Set up ChromeDriver
         run: |
-          sudo apt-get update
-          sudo apt-get install -y unzip xvfb libxi6 libgconf-2-4
+          apt-get update
+          apt-get install -y unzip xvfb libxi6 libgconf-2-4
           wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip -d /usr/local/bin/
-          sudo apt-get install -y chromium-browser
+          apt-get install -y chromium-browser
         env:
           PATH: /usr/local/bin:$PATH
 
