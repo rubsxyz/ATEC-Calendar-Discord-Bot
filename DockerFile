@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y \
 RUN wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip \
     && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
     && rm chromedriver_linux64.zip \
-    && chmod +x /usr/local/bin/chromedriver
+    && chmod +x /usr/local/bin/chromedriver \
+    && ln -fs /usr/local/bin/chromedriver /usr/bin/chromedriver
 
 # Set environment variables
 ENV DISPLAY=:99
