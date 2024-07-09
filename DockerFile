@@ -17,10 +17,13 @@ RUN apt-get update && apt-get install -y \
 # Set up ChromeDriver
 RUN wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip \
     && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
-    && rm chromedriver_linux64.zip
+    && rm chromedriver_linux64.zip \
+    && chmod +x /usr/local/bin/chromedriver
 
 # Set environment variables
 ENV DISPLAY=:99
+ENV CHROME_BIN=/usr/bin/chromium
+ENV CHROMEDRIVER_BIN=/usr/local/bin/chromedriver
 
 # Copy project files
 WORKDIR /app
