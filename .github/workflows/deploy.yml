@@ -43,9 +43,12 @@ jobs:
           echo "Removing old ChromeDriver version"
           sudo rm -f /usr/local/bin/chromedriver
 
-      - name: Install ChromeDriver
+      - name: Install latest ChromeDriver
         run: |
-          wget -N https://chromedriver.storage.googleapis.com/126.0.6478.126/chromedriver_linux64.zip
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          echo "Installing ChromeDriver for Chrome version $CHROME_VERSION"
+          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          wget -N "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
           unzip chromedriver_linux64.zip -d /usr/local/bin/
           sudo rm chromedriver_linux64.zip 
           sudo chmod +x /usr/local/bin/chromedriver
