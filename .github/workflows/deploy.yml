@@ -16,12 +16,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Print working directory
+        run: pwd
+
+      - name: List files
+        run: ls -la
+
       - name: Set up environment variables
         run: |
           echo "LOGIN_URL=${{ secrets.LOGIN_URL }}" >> .env
           echo "USER_NAME=${{ secrets.USER_NAME }}" >> .env
           echo "USER_PASSWORD=${{ secrets.USER_PASSWORD }}" >> .env
           echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> .env
+          cat .env
 
       - name: Install dependencies
         run: |
