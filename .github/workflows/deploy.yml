@@ -39,7 +39,7 @@ jobs:
           RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           . $GITHUB_ENV
-          railway link <1dac405b-26b4-431c-bbcb-a9b598bc0e89>
+          railway link dca405b-26b4-431c-bbcb-a9b598bc0e89
 
       - name: Deploy to Railway
         env:
