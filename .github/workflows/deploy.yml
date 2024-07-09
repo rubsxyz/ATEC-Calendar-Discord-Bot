@@ -36,7 +36,7 @@ jobs:
 
       - name: Deploy to Railway
         env:
-          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_API_TOKEN: "9d3fe745-a14f-4776-981a-17837d6e50e0"
           RAILWAY_PROJECT_ID: "1dac405b-26b4-431c-bbcb-a9b598bc0e89"  # Add your Railway project ID here
         run: |
           . $GITHUB_ENV
