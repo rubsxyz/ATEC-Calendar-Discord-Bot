@@ -7,7 +7,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
-import os
 
 def setup_driver(config):
     chrome_options = Options()
@@ -21,11 +20,7 @@ def setup_driver(config):
     chrome_options.add_argument('--log-level=3')
     chrome_options.add_argument('--silent')
 
-    chromedriver_path = "/usr/local/bin/chromedriver"
-    if not os.path.isfile(chromedriver_path):
-        raise FileNotFoundError(f"Chromedriver not found at {chromedriver_path}")
-    
-    service = Service(executable_path=chromedriver_path)
+    service = Service(executable_path="/usr/local/bin/chromedriver_linux64/chromedriver.exe")
     driver = webdriver.Chrome(service=service, options=chrome_options)
     wait = WebDriverWait(driver, 10)
     return driver, wait
