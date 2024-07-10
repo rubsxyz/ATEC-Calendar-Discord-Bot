@@ -6,7 +6,7 @@ import asyncio
 from datetime import datetime
 from dotenv import load_dotenv
 from .web_interaction import setup_driver, login_to_site
-from .calendar_interaction import navigate_to_calendar, navigate_to_next_calendar, capture_calendar_image
+from .calendar_interaction import navigate_to_calendar, navigate_to_next_calendar, capture_calendar_image, get_calendar_date
 from .config import get_config
 
 logging.getLogger('discord').setLevel(logging.ERROR)
@@ -40,7 +40,7 @@ async def on_ready():
 
 async def login_to_atec(driver, wait, config, interaction):
     if not await asyncio.to_thread(login_to_site, driver, wait, config):
-        await interaction.followup.send(content="Falha ao fazer login no servidor ATEC.")
+        await interaction.edit_original_response(content="Falha ao fazer login no servidor ATEC.")
         driver.quit()
         return False
     return True
@@ -52,15 +52,20 @@ async def run_selenium(interaction):
         return
 
     if not await asyncio.to_thread(navigate_to_calendar, driver, wait):
-        await interaction.followup.send(content="Falha ao navegar para a página do calendário.")
+        await interaction.edit_original_response(content="Falha ao navegar para a página do calendário.")
+        driver.quit()
+        return
+
+    calendar_date = await asyncio.to_thread(get_calendar_date, driver, wait)
+    if not calendar_date:
+        await interaction.edit_original_response(content="Falha ao obter a data do calendário.")
         driver.quit()
         return
 
     await asyncio.to_thread(capture_calendar_image, driver)
     with open("images/calendar_screenshot_cropped.png", "rb") as f:
         picture = discord.File(f)
-        today = datetime.now().strftime("%d/%m/%Y")
-        await interaction.followup.send(content=f"Calendário desta semana. Dia {today}:", file=picture)
+        await interaction.edit_original_response(content=f"Calendário desta semana: {calendar_date}", attachments=[picture])
     driver.quit()
 
 async def run_selenium_next_week(interaction):
@@ -70,19 +75,25 @@ async def run_selenium_next_week(interaction):
         return
 
     if not await asyncio.to_thread(navigate_to_calendar, driver, wait):
-        await interaction.followup.send(content="Falha ao navegar para a página do calendário.")
+        await interaction.edit_original_response(content="Falha ao navegar para a página do calendário.")
         driver.quit()
         return
 
     if not await asyncio.to_thread(navigate_to_next_calendar, driver, wait):
-        await interaction.followup.send(content="Falha ao navegar para o calendário da próxima semana.")
+        await interaction.edit_original_response(content="Falha ao navegar para o calendário da próxima semana.")
+        driver.quit()
+        return
+
+    calendar_date = await asyncio.to_thread(get_calendar_date, driver, wait)
+    if not calendar_date:
+        await interaction.edit_original_response(content="Falha ao obter a data do calendário da próxima semana.")
         driver.quit()
         return
 
     await asyncio.to_thread(capture_calendar_image, driver)
     with open("images/calendar_screenshot_cropped.png", "rb") as f:
         picture = discord.File(f)
-        await interaction.followup.send(content="Calendário da próxima semana", file=picture)
+        await interaction.edit_original_response(content=f"Calendário da próxima semana: {calendar_date}", attachments=[picture])
     driver.quit()
 
 def start_discord_bot():
