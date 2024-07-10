@@ -18,13 +18,13 @@ def setup_driver(config):
     chrome_options.add_argument('--log-level=3')
     chrome_options.add_argument('--silent')
 
-    service = Service(executable_path="D:\Programs\chromedriver-win64\chromedriver.exe")
+    service = Service(executable_path="D:/Programs/chromedriver-win64/chromedriver.exe")
     driver = webdriver.Chrome(service=service, options=chrome_options)
     wait = WebDriverWait(driver, 10)
     return driver, wait
 
 def login_to_site(driver, wait, config):
-    driver.get(config['LOGIN_URL'])
+    driver.get('https://trainingserver.atec.pt/trainingserver/')
     logging.info("Login page loaded.")
     
     try:
