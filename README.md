@@ -79,14 +79,12 @@ This repository hosts a bot that automates the process of logging into the ATEC 
     Create a `.env` file in the root directory of the project with the following content:
 
     ```plaintext
-    LOGIN_URL=https://trainingserver.atec.pt/trainingserver/
     USERNAME=your_username
     PASSWORD=your_password
     DISCORD_TOKEN=your_discord_token
-    CHANNEL_ID=your_discord_channel_id
     ```
 
-    Replace `your_username`, `your_password`, `your_discord_token`, and `your_discord_channel_id` with your actual ATEC login credentials and Discord bot token and channel ID.
+    Replace `your_username`, `your_password` and `your_discord_token` with your actual ATEC login credentials and Discord bot token.
 
     To create a Discord bot and get the token, follow [this guide](https://discordpy.readthedocs.io/en/stable/discord.html).
 
