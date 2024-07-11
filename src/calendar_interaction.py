@@ -40,7 +40,7 @@ def navigate_to_next_calendar(driver, wait):
 
 def capture_calendar_image(driver):
     try:
-        time.sleep(1)  # ajustar os segundos conforme necessario
+        time.sleep(3)  # ajustar os segundos conforme necessario
         driver.save_screenshot("images/calendar_screenshot.png")
         img = Image.open("images/calendar_screenshot.png")
         left, top, right, bottom = 50, 180, 1860, 900
