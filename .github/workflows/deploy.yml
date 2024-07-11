@@ -42,6 +42,7 @@ jobs:
         run: |
           echo "Removing old ChromeDriver version"
           sudo rm -f /usr/local/bin/chromedriver
+          sudo rm -f /usr/bin/chromedriver
 
       - name: Install ChromeDriver
         run: |
