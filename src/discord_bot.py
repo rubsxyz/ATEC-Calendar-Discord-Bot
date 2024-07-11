@@ -6,7 +6,7 @@ import asyncio
 from datetime import datetime
 from dotenv import load_dotenv
 from .web_interaction import setup_driver, login_to_site
-from .calendar_interaction import navigate_to_calendar, navigate_to_next_calendar, capture_calendar_image
+from .calendar_interaction import navigate_to_calendar, navigate_to_next_calendar, capture_calendar_image, get_calendar_date
 from .config import get_config
 
 logging.getLogger('discord').setLevel(logging.ERROR)
