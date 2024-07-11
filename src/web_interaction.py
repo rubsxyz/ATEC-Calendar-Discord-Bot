@@ -10,9 +10,16 @@ from selenium.common.exceptions import TimeoutException
 import os
 
 def setup_driver(config):
-    chromedriver_path="/usr/local/bin/chromedriver"
-
-    chrome_options = Options()
+    chromedriver_path = "/usr/local/bin/chromedriver"
+    logging.info(f"Using ChromeDriver path: {chromedriver_path}")
+    
+    if not os.path.isfile(chromedriver_path):
+        logging.error(f"ChromeDriver does not exist at path: {chromedriver_path}")
+        raise FileNotFoundError(f"No such file: '{chromedriver_path}'")
+    
+    logging.info(f"ChromeDriver Permissions: {oct(os.stat(chromedriver_path).st_mode)}")
+    
+    chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--window-size=1920x1080")
@@ -20,7 +27,7 @@ def setup_driver(config):
     chrome_options.add_argument('--allow-running-insecure-content')
     chrome_options.add_argument('--log-level=3')
     chrome_options.add_argument('--silent')
-
+    
     service = Service(executable_path=chromedriver_path)
     driver = webdriver.Chrome(service=service, options=chrome_options)
     wait = WebDriverWait(driver, 10)
