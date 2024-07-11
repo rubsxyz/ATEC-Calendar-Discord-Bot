@@ -38,9 +38,9 @@ def navigate_to_next_calendar(driver, wait):
         logging.error(f"Failed to navigate to next week's calendar: {e}")
         return False
 
-def capture_calendar_image(driver):
+def capture_calendar_image(driver, wait):
     try:
-        time.sleep(3)  # ajustar os segundos conforme necessario
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "fc-event-bg")))
         driver.save_screenshot("images/calendar_screenshot.png")
         img = Image.open("images/calendar_screenshot.png")
         left, top, right, bottom = 50, 180, 1860, 900
