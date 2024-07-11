@@ -49,7 +49,6 @@ jobs:
           sudo unzip -o chromedriver-linux64.zip -d /usr/local/bin/
           sudo mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
-          sudo rm -r /usr/local/bin/chromedriver-linux64.zip
 
       - name: Verify ChromeDriver Installation
         run: |
