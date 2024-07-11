@@ -10,7 +10,7 @@ from selenium.common.exceptions import TimeoutException
 import os
 
 def setup_driver(config):
-    chromedriver_path = "/usr/local/bin/chromedriver"
+    chromedriver_path = "/usr/bin/chromedriver"
     logging.info(f"Using ChromeDriver path: {chromedriver_path}")
     
     if not os.path.isfile(chromedriver_path):
