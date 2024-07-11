@@ -10,8 +10,7 @@ RUN apt-get update && apt-get install -y google-chrome-stable
 RUN apt-get update && apt-get install -y unzip
 RUN wget -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip
 RUN unzip -o /tmp/chromedriver.zip -d /usr/local/bin/
-RUN mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
-RUN chmod +x /usr/local/bin/chromedriver
+RUN chmod +x /usr/local/bin/chromedriver-linux64/chromedriver-linux64/chromedriver
 
 # Install Python dependencies
 COPY requirements.txt .
