@@ -16,6 +16,8 @@ RUN ln -s /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chrome
 # Debugging: List the contents of the /usr/local/bin directory
 RUN ls -la /usr/local/bin
 RUN ls -la /usr/local/bin/chromedriver-linux64
+RUN /usr/local/bin/chromedriver --version
+RUN /usr/local/bin/chromedriver-linux64/chromedriver --version
 
 # Install Python dependencies
 COPY requirements.txt .
