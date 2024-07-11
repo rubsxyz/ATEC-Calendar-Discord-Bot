@@ -15,7 +15,6 @@ jobs:
       - name: Set up environment variables
         run: |
           echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> $GITHUB_ENV
-          echo "LOGIN_URL=${{ secrets.LOGIN_URL }}" >> $GITHUB_ENV
           echo "USER_NAME=${{ secrets.USER_NAME }}" >> $GITHUB_ENV
           echo "USER_PASSWORD=${{ secrets.USER_PASSWORD }}" >> $GITHUB_ENV
           echo "RAILWAY_API_TOKEN=${{ secrets.RAILWAY_TOKEN }}" >> $GITHUB_ENV
@@ -47,16 +46,17 @@ jobs:
       - name: Install ChromeDriver
         run: |
           wget -N https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip
-          sudo unzip -o chromedriver-linux64.zip -d /usr/bin/
-          sudo rm chromedriver-linux64.zip 
-          sudo chmod +x /usr/bin/chromedriver
+          sudo unzip -o chromedriver-linux64.zip -d /usr/local/bin/
+          sudo mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+          sudo rm -r /usr/local/bin/chromedriver-linux64.zip
 
       - name: Verify ChromeDriver Installation
         run: |
-          echo "Checking /usr/bin directory:"
-          ls -la /usr/bin/
-          echo "Checking ChromeDriver version in /usr/bin:"
-          /usr/bin/chromedriver --version
+          echo "Checking /usr/local/bin directory:"
+          ls -la /usr/local/bin/
+          echo "Checking ChromeDriver version in /usr/local/bin:"
+          /usr/local/bin/chromedriver --version
 
       - name: Display Google Chrome Version
         run: |
