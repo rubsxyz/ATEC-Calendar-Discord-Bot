@@ -54,6 +54,8 @@ jobs:
         run: |
           echo "Checking /usr/local/bin/chromedriver-linux64 directory:"
           ls -la /usr/local/bin/chromedriver-linux64
+          echo "Checking /usr/local/bin directory:"
+          ls -la /usr/local/bin
           echo "Checking ChromeDriver version in /usr/local/bin/chromedriver-linux64/chromedriver:"
           /usr/local/bin/chromedriver-linux64/chromedriver --version
 

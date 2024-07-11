@@ -13,6 +13,10 @@ RUN unzip -o /tmp/chromedriver.zip -d /usr/local/bin/
 RUN chmod +x /usr/local/bin/chromedriver-linux64/chromedriver
 RUN ln -s /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
 
+# Debugging: List the contents of the /usr/local/bin directory
+RUN ls -la /usr/local/bin
+RUN ls -la /usr/local/bin/chromedriver-linux64
+
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install -r requirements.txt
