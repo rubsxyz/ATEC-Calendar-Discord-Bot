@@ -10,18 +10,12 @@ from selenium.common.exceptions import TimeoutException
 import os
 
 def setup_driver(config):
-    chromedriver_path = "/usr/local/bin/chromedriver-linux64/chromedriver"
-    chromedriver_pathTest = "/usr/local/bin/chromedriver-linux64/chromedriver-linux64/chromedriver"
+    chromedriver_path = "/usr/local/bin/chromedriver-linux64/chromedriver-linux64/chromedriver"
     logging.info(f"Using ChromeDriver path: {chromedriver_path}")
-    logging.info(f"Using ChromeDriver path: {chromedriver_pathTest}")
     
     if not os.path.isfile(chromedriver_path):
         logging.error(f"ChromeDriver does not exist at path: {chromedriver_path}")
         raise FileNotFoundError(f"No such file: '{chromedriver_path}'")
-    
-    if not os.path.isfile(chromedriver_pathTest):
-        logging.error(f"ChromeDriver does not exist at path: {chromedriver_pathTest}")
-        raise FileNotFoundError(f"No such file: '{chromedriver_pathTest}'")
     
     logging.info(f"ChromeDriver Permissions: {oct(os.stat(chromedriver_path).st_mode)}")
     
