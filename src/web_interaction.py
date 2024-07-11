@@ -10,7 +10,7 @@ from selenium.common.exceptions import TimeoutException
 import os
 
 def setup_driver(config):
-    chromedriver_path = '/usr/bin/chromedriver'
+    chromedriver_path = "/usr/local/bin/chromedriver"
     logging.info(f"Using ChromeDriver path: {chromedriver_path}")
     
     if not os.path.isfile(chromedriver_path):
@@ -30,7 +30,7 @@ def setup_driver(config):
     return driver, wait
 
 def login_to_site(driver, wait, config):
-    driver.get(config['LOGIN_URL'])
+    driver.get('https://trainingserver.atec.pt/trainingserver/')
     logging.info("Login page loaded.")
     
     try:
