@@ -56,11 +56,17 @@ async def run_selenium(interaction):
         driver.quit()
         return
 
+    calendar_date = await asyncio.to_thread(get_calendar_date, driver, wait)
+    if not calendar_date:
+        await interaction.edit_original_response(content="Falha ao obter a data do calendário.")
+        driver.quit()
+        return
+    
     await asyncio.to_thread(capture_calendar_image, driver)
     with open("images/calendar_screenshot_cropped.png", "rb") as f:
         picture = discord.File(f)
         today = datetime.now().strftime("%d/%m/%Y")
-        await interaction.followup.send(content=f"Calendário desta semana. Dia {today}:", file=picture)
+        await interaction.edit_original_response(content=f"Calendário da próxima semana: {calendar_date}", attachments=[picture])
     driver.quit()
 
 async def run_selenium_next_week(interaction):
@@ -78,11 +84,17 @@ async def run_selenium_next_week(interaction):
         await interaction.followup.send(content="Falha ao navegar para o calendário da próxima semana.")
         driver.quit()
         return
+    
+    calendar_date = await asyncio.to_thread(get_calendar_date, driver, wait)
+    if not calendar_date:
+        await interaction.edit_original_response(content="Falha ao obter a data do calendário.")
+        driver.quit()
+        return
 
     await asyncio.to_thread(capture_calendar_image, driver)
     with open("images/calendar_screenshot_cropped.png", "rb") as f:
         picture = discord.File(f)
-        await interaction.followup.send(content="Calendário da próxima semana", file=picture)
+        await interaction.edit_original_response(content=f"Calendário da próxima semana: {calendar_date}", attachments=[picture])
     driver.quit()
 
 def start_discord_bot():
