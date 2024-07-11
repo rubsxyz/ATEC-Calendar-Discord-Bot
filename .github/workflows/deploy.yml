@@ -52,7 +52,7 @@ jobs:
       - name: Verify ChromeDriver Installation
         run: |
           echo "Checking /usr/local/bin directory:"
-          ls -la /usr/local/bin/
+          ls -la /usr/local/bin/chromedriver-linux64/chromedriver-linux64/
           echo "Checking ChromeDriver version in /usr/local/bin:"
           /usr/local/bin/chromedriver-linux64/chromedriver-linux64/chromedriver --version
 
