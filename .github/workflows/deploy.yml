@@ -19,7 +19,6 @@ jobs:
           echo "USER_NAME=${{ secrets.USER_NAME }}" >> $GITHUB_ENV
           echo "USER_PASSWORD=${{ secrets.USER_PASSWORD }}" >> $GITHUB_ENV
           echo "RAILWAY_API_TOKEN=${{ secrets.RAILWAY_TOKEN }}" >> $GITHUB_ENV
-
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -29,7 +28,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
       - name: Install Chrome
         run: |
           sudo apt-get update
@@ -37,44 +35,32 @@ jobs:
           wget -q -O google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo dpkg -i google-chrome.deb || sudo apt-get -fy install
           sudo ln -s /usr/bin/google-chrome /usr/bin/chrome || true
-
+      - name: Clean up old ChromeDriver
+        run: |
+          echo "Removing old ChromeDriver version"
+          sudo rm -f /usr/local/bin/chromedriver
       - name: Install ChromeDriver
         run: |
-          wget -N https://chromedriver.storage.googleapis.com/126.0.6478.126/chromedriver_linux64.zip
+          wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip -d /usr/local/bin/
           sudo rm chromedriver_linux64.zip 
           sudo chmod +x /usr/local/bin/chromedriver
           sudo ln -s /usr/local/bin/chromedriver /usr/bin/chromedriver || true
           
-      - name: Locate ChromeDriver and check permissions
-        run: |
-          echo "Locating chromedriver..."
-          CHROMEDRIVER_PATH=$(which chromedriver)
-          echo "ChromeDriver Path: $CHROMEDRIVER_PATH"
-          if [ -z "$CHROMEDRIVER_PATH" ]; then
-            echo "chromedriver not found in PATH"
-            exit 1
-          fi
-          echo "Checking ChromeDriver permissions..."
-          ls -la $CHROMEDRIVER_PATH
-
       - name: Verify ChromeDriver Installation
         run: |
           echo "Checking /usr/bin directory:"
           ls -la /usr/bin/
           echo "Checking ChromeDriver version in /usr/bin:"
           /usr/bin/chromedriver --version
-
       - name: Display Google Chrome Version
         run: |
           echo "Google Chrome version:"
           google-chrome --version || echo "Google Chrome not found"
-
       - name: Install Railway CLI
         run: |
           curl -sSL https://raw.githubusercontent.com/railwayapp/cli/master/install.sh | sh
           echo 'export PATH="$HOME/.railway/bin:$PATH"' >> $GITHUB_ENV
-
       - name: Configure Railway project
         run: |
           mkdir -p ~/.railway
