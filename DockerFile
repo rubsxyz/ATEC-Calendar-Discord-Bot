@@ -12,6 +12,11 @@ RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/126
 RUN unzip /tmp/chromedriver.zip -d /usr/bin/
 RUN chmod +x /usr/bin/chromedriver
 
+# Verify ChromeDriver installation and permissions
+RUN echo "Verifying ChromeDriver installation..."
+RUN ls -la /usr/bin/chromedriver
+RUN /usr/bin/chromedriver --version
+
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install -r requirements.txt
