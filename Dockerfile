@@ -1,31 +1,49 @@
-FROM python:3.11-slim
+# Use the official Python image from the Docker Hub
+FROM python:3.11-slim AS base
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip \
+    xvfb \
+    libxi6 \
+    libgconf-2-4 \
+    default-jdk \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Chrome
-RUN apt-get update && apt-get install -y wget gnupg
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-RUN apt-get update && apt-get install -y google-chrome-stable
+RUN wget -q -O google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    && dpkg -i google-chrome.deb || apt-get -fy install \
+    && rm google-chrome.deb
 
 # Install ChromeDriver
-RUN apt-get update && apt-get install -y unzip
-RUN wget -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip
-RUN unzip -o /tmp/chromedriver.zip -d /usr/local/bin/
-RUN chmod +x /usr/local/bin/chromedriver-linux64/chromedriver
-RUN ln -s /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+RUN wget -N https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip \
+    && unzip chromedriver-linux64.zip -d /usr/local/bin/ \
+    && rm chromedriver-linux64.zip \
+    && chmod +x /usr/local/bin/chromedriver-linux64/chromedriver \
+    && ln -s /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
 
-# Debugging: List the contents of the /usr/local/bin directory
-RUN ls -la /usr/local/bin
-RUN ls -la /usr/local/bin/chromedriver-linux64
-RUN /usr/local/bin/chromedriver --version
-RUN /usr/local/bin/chromedriver-linux64/chromedriver --version
+# Set environment variables
+ENV PATH="/usr/local/bin/chromedriver:${PATH}"
 
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-# Copy the application
-COPY . /app
+# Use multi-stage build to minimize the final image size
+FROM base AS builder
 WORKDIR /app
 
-# Run the application!
+# Copy only the requirements file to leverage Docker cache
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application
+COPY . .
+
+# Final stage
+FROM base
+WORKDIR /app
+COPY --from=builder /app /app
+
+# Expose port
+EXPOSE 8080
+
+# Command to run the application
 CMD ["python", "main.py"]
