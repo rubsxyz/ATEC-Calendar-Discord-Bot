@@ -38,11 +38,6 @@ jobs:
           sudo dpkg -i google-chrome.deb || sudo apt-get -fy install
           sudo ln -s /usr/bin/google-chrome /usr/bin/chrome || true
 
-      - name: Clean up old ChromeDriver
-        run: |
-          echo "Removing old ChromeDriver version"
-          sudo rm -f /usr/local/bin/chromedriver
-
       - name: Install ChromeDriver
         run: |
           wget -N https://chromedriver.storage.googleapis.com/126.0.6478.126/chromedriver_linux64.zip
