@@ -44,9 +44,14 @@ jobs:
           sudo rm -f /usr/local/bin/chromedriver
           sudo rm -f /usr/bin/chromedriver
 
+      - name: Determine ChromeDriver version
+        id: chromedriver-version
+        run: echo "::set-output name=version::$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE_126.0.6478)"
+
       - name: Install ChromeDriver
         run: |
-          wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
+          CHROME_VERSION=${{ steps.chromedriver-version.outputs.version }}
+          wget -N https://chromedriver.storage.googleapis.com/$CHROME_VERSION/chromedriver_linux64.zip
           sudo unzip -o chromedriver_linux64.zip -d /usr/bin/
           sudo rm chromedriver_linux64.zip 
           sudo chmod +x /usr/bin/chromedriver
