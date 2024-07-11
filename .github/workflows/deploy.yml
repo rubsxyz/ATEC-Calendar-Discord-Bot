@@ -36,6 +36,11 @@ jobs:
           wget -q -O google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo dpkg -i google-chrome.deb || sudo apt-get -fy install
           sudo ln -s /usr/bin/google-chrome /usr/bin/chrome || true
+      
+      - name: Clean up old ChromeDriver
+        run: |
+          echo "Removing old ChromeDriver version"
+          sudo rm -f /usr/local/bin/chromedriver
 
       - name: Install ChromeDriver
         run: |
