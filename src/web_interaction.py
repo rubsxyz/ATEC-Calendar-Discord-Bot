@@ -35,6 +35,10 @@ def setup_driver(config):
     chrome_options.add_argument("--hide-scrollbars")
     chrome_options.add_argument("--metrics-recording-only")
     chrome_options.add_argument("--mute-audio")
+    chrome_options.add_argument("--remote-debugging-port=9222")
+    chrome_options.add_argument("--disable-crash-reporter")
+    chrome_options.add_argument("--disable-infobars")
+    chrome_options.add_argument("--single-process")
     
     service = Service(executable_path=chromedriver_path)
     driver = webdriver.Chrome(service=service, options=chrome_options)
