@@ -30,4 +30,4 @@ COPY . /app
 WORKDIR /app
 
 # Run the bot
-CMD ["python", "discord_bot.py"]
+CMD ["python", "main.py"]
