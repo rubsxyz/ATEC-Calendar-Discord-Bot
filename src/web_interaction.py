@@ -7,40 +7,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
-import os
 
 def setup_driver(config):
-    chromedriver_path = "/usr/local/bin/chromedriver"
-    logging.info(f"Using ChromeDriver path: {chromedriver_path}")
-    
-    if not os.path.isfile(chromedriver_path):
-        logging.error(f"ChromeDriver does not exist at path: {chromedriver_path}")
-        raise FileNotFoundError(f"No such file: '{chromedriver_path}'")
-    
-    logging.info(f"ChromeDriver Permissions: {oct(os.stat(chromedriver_path).st_mode)}")
-    
     chrome_options = Options()
     chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--window-size=1920,1080")
-    chrome_options.add_argument("--disable-software-rasterizer")
-    chrome_options.add_argument("--disable-extensions")
-    chrome_options.add_argument("--disable-background-networking")
-    chrome_options.add_argument("--disable-default-apps")
-    chrome_options.add_argument("--disable-popup-blocking")
-    chrome_options.add_argument("--disable-translate")
-    chrome_options.add_argument("--disable-sync")
-    chrome_options.add_argument("--hide-scrollbars")
-    chrome_options.add_argument("--metrics-recording-only")
-    chrome_options.add_argument("--mute-audio")
-    chrome_options.add_argument("--remote-debugging-port=9222")
-    chrome_options.add_argument("--disable-crash-reporter")
-    chrome_options.add_argument("--disable-infobars")
-    chrome_options.add_argument("--single-process")
-    
-    service = Service(executable_path=chromedriver_path)
+    chrome_options.add_argument("--window-size=1920x1080")
+    chrome_options.add_argument('--ignore-certificate-errors')
+    chrome_options.add_argument('--allow-running-insecure-content')
+    chrome_options.add_argument('--log-level=3')
+    chrome_options.add_argument('--silent')
+
+    service = Service(executable_path="/usr/local/bin/chromedriver")
     driver = webdriver.Chrome(service=service, options=chrome_options)
     wait = WebDriverWait(driver, 10)
     return driver, wait
