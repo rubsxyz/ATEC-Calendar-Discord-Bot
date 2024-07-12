@@ -1,13 +1,14 @@
 FROM python:3.11-slim
 
-# Install Chrome
-RUN apt-get update && apt-get install -y wget gnupg
+# Install Chrome and other dependencies
+RUN apt-get update && apt-get install -y wget gnupg unzip xvfb libxi6 libgconf-2-4 default-jdk --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
+# Add Chrome repository and install Chrome
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
 RUN apt-get update && apt-get install -y google-chrome-stable
 
 # Install ChromeDriver
-RUN apt-get update && apt-get install -y unzip
 RUN wget -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip
 RUN unzip -o /tmp/chromedriver.zip -d /usr/local/bin/
 RUN chmod +x /usr/local/bin/chromedriver-linux64/chromedriver
@@ -21,11 +22,11 @@ RUN /usr/local/bin/chromedriver-linux64/chromedriver --version
 
 # Install Python dependencies
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application
 COPY . /app
 WORKDIR /app
 
-# Run the application!
+# Run the application
 CMD ["python", "main.py"]
