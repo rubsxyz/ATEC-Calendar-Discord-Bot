@@ -10,10 +10,8 @@ if os.path.exists("bot.log"):
     os.remove("bot.log")
 
 # Configura o logging para mostrar logs no console e salvar em um arquivo
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', handlers=[
-    logging.FileHandler("bot.log"),
-    logging.StreamHandler()
-])
+logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='w',
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 if __name__ == "__main__":
     start_discord_bot()

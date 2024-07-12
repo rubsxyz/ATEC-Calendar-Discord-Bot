@@ -1,32 +1,34 @@
 FROM python:3.11-slim
 
-# Install Chrome and other dependencies
-RUN apt-get update && apt-get install -y wget gnupg unzip xvfb libxi6 libgconf-2-4 default-jdk --no-install-recommends && rm -rf /var/lib/apt/lists/*
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    wget \
+    gnupg \
+    unzip \
+    && apt-get clean
 
-# Add Chrome repository and install Chrome
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-RUN apt-get update && apt-get install -y google-chrome-stable
+# Install Chrome
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable
 
 # Install ChromeDriver
-RUN wget -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.126/linux64/chromedriver-linux64.zip
-RUN unzip -o /tmp/chromedriver.zip -d /usr/local/bin/
-RUN chmod +x /usr/local/bin/chromedriver-linux64/chromedriver
-RUN ln -s /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
-
-# Debugging: List the contents of the /usr/local/bin directory
-RUN ls -la /usr/local/bin
-RUN ls -la /usr/local/bin/chromedriver-linux64
-RUN /usr/local/bin/chromedriver --version
-RUN /usr/local/bin/chromedriver-linux64/chromedriver --version
+RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
+    wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip -P ~ && \
+    unzip ~/chromedriver_linux64.zip -d ~ && \
+    rm ~/chromedriver_linux64.zip && \
+    mv -f ~/chromedriver /usr/local/bin/chromedriver && \
+    chown root:root /usr/local/bin/chromedriver && \
+    chmod 0755 /usr/local/bin/chromedriver
 
 # Install Python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
-# Copy the application
+# Copy your bot code
 COPY . /app
 WORKDIR /app
 
-# Run the application
-CMD ["python", "main.py"]
+# Run the bot
+CMD ["python", "discord_bot.py"]
