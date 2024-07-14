@@ -65,7 +65,7 @@ async def run_selenium(interaction):
     await asyncio.to_thread(capture_calendar_image, driver)
     with open("images/calendar_screenshot_cropped.png", "rb") as f:
         picture = discord.File(f)
-        await interaction.edit_original_response(content=f"Calendário desta semana: {calendar_date}", attachments=[picture])
+        await interaction.edit_original_response(content=f"Calendário: {calendar_date}", attachments=[picture])
     driver.quit()
 
 async def run_selenium_next_week(interaction):
@@ -93,7 +93,7 @@ async def run_selenium_next_week(interaction):
     await asyncio.to_thread(capture_calendar_image, driver)
     with open("images/calendar_screenshot_cropped.png", "rb") as f:
         picture = discord.File(f)
-        await interaction.edit_original_response(content=f"Calendário da próxima semana: {calendar_date}", attachments=[picture])
+        await interaction.edit_original_response(content=f"Calendário: {calendar_date}", attachments=[picture])
     driver.quit()
 
 def start_discord_bot():
