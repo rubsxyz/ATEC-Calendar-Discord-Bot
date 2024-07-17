@@ -25,7 +25,7 @@ def setup_driver(config):
 
 def login_to_site(driver, wait, config):
     driver.get('https://trainingserver.atec.pt/trainingserver/')
-    logging.info("Login page loaded.")
+    logging.info("Login page is loaded.")
     
     try:
         user_field = wait.until(EC.presence_of_element_located((By.ID, "txtUser")))
