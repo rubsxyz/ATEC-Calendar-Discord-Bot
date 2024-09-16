@@ -4,7 +4,7 @@
   <a href="#" target="_blank">
     <img alt="License: Apache-2.0" src="https://img.shields.io/github/license/rubsxyz/ATEC-Calendar-Discord-Bot" />
   </a>
-    <a><img alt="Is Mantained?" src="https://img.shields.io/badge/Mantained:-yes-green.svg" />
+    <a><img alt="Is Mantained?" src="https://img.shields.io/badge/Mantained:-no-red.svg" />
   </a>
 </p>
 
